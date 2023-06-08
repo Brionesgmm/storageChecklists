@@ -10,7 +10,7 @@ const flash = require("express-flash");
 const logger = require("morgan");
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
-const postRoutes = require("./routes/posts");
+const taskRoutes = require("./routes/tasks");
 const cors = require("cors");
 
 app.use(cors());
@@ -26,6 +26,7 @@ connectDB();
 
 //Static Folder
 app.use(express.static("frontend/dist"));
+
 // app.use((req, res, next) => {
 //   // If the path starts with /api, remove the /api prefix
 //   if (req.path.startsWith("/api")) {
@@ -63,7 +64,7 @@ app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
 app.use("/api", mainRoutes);
-app.use("/api/post", postRoutes);
+app.use("/api/task", taskRoutes);
 app.use("*", (_, res) => {
   res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
 });

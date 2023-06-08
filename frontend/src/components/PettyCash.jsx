@@ -27,6 +27,7 @@ const PettyCash = ({
   setReceipts,
   totalPettyCash,
   setTotalPettyCash,
+  givenCash,
 }) => {
   const [prevDenominations, setPrevDenominations] = useState({
     pennies,
@@ -258,7 +259,19 @@ const PettyCash = ({
             name="totalPettyCash"
             id="totalPettyCash"
             value={totalPettyCash}
-            onChange={(e) => setTotalPettyCash(e.target.value)}
+            readOnly
+          />
+        </div>
+
+        {/* Given Cash */}
+        <div className="cashInputs">
+          <label htmlFor="givenCash">Given Cash: </label>
+          <input
+            type="number"
+            name="givenCash"
+            id="givenCash"
+            value={givenCash}
+            readOnly
           />
         </div>
       </div>

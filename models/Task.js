@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const FacilitySchema = new mongoose.Schema({
+const TaskSchema = new mongoose.Schema({
   facilityId: {
     type: String,
     required: true,
@@ -17,10 +17,10 @@ const FacilitySchema = new mongoose.Schema({
   pettyCash: {
     denominations: [{ denomination: String, value: Number }],
     total: Number,
-    otherInputs: [Number],
+    cashAmounts: [{ amount: String, value: Number }],
   },
-  users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   createdDate: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Facility", FacilitySchema);
+module.exports = mongoose.model("Task", TaskSchema);
