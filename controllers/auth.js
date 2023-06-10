@@ -1,6 +1,7 @@
 const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
+const Facility = require("../models/Facility"); // import Facility model at the top of your file
 
 exports.getUser = (req, res) => {
   res.json({ user: req.user || null });
@@ -80,7 +81,7 @@ exports.postSignup = (req, res, next) => {
 
   User.findOne(
     { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
-    (err, existingUser) => {
+    async (err, existingUser) => {
       if (err) {
         return next(err);
       }
@@ -90,10 +91,13 @@ exports.postSignup = (req, res, next) => {
         });
         return res.json({ messages: req.flash() });
       }
-      user.save((err) => {
+      user.save(async (err) => {
         if (err) {
           return next(err);
         }
+        const facility = await Facility.findById(req.body.property);
+        facility.employees.push(user._id);
+        await facility.save();
         req.logIn(user, (err) => {
           if (err) {
             return next(err);
