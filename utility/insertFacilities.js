@@ -1,15 +1,9 @@
-require("dotenv").config();
-
-console.log(process.env.DB_STRING); // This should print your MongoDB connection string
-
+require("dotenv").config({ path: __dirname + "/../config/.env" });
 const mongoose = require("mongoose");
 const Facility = require("../models/Facility");
+const connectDB = require("../config/database"); // import the connectDB function
 
-mongoose.connect(process.env.DB_STRING, {
-  // replace with your MongoDB connection string
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+connectDB(); // call the function to connect to the database
 
 const facilities = [
   { name: "Facility 1", address: "123 Main St", employees: [] },

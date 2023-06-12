@@ -96,6 +96,12 @@ exports.postSignup = (req, res, next) => {
           return next(err);
         }
         const facility = await Facility.findById(req.body.property);
+        if (!facility) {
+          req.flash("errors", {
+            msg: "The selected facility does not exist.",
+          });
+          return res.json({ messages: req.flash() });
+        }
         facility.employees.push(user._id);
         await facility.save();
         req.logIn(user, (err) => {
@@ -107,4 +113,13 @@ exports.postSignup = (req, res, next) => {
       });
     }
   );
+};
+
+exports.getFacilities = async (req, res, next) => {
+  try {
+    const facilities = await Facility.find();
+    res.json(facilities);
+  } catch (err) {
+    next(err);
+  }
 };

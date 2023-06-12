@@ -12,4 +12,7 @@ router.post("/login", authController.postLogin);
 router.get("/logout", authController.logout);
 router.post("/signup", authController.postSignup);
 
+// Get Facilities
+router.get("/facilities", authController.getFacilities);
+
 module.exports = router;

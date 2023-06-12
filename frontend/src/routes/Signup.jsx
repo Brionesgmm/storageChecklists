@@ -1,17 +1,30 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function Signup() {
   const { setUser, setMessages } = useOutletContext();
   const navigate = useNavigate();
+  const [properties, setProperties] = useState([]);
 
   // Add your property names here
-  const properties = [
-    "Property Alpha",
-    "Property Beta",
-    "Property Gamma",
-    "Property Delta",
-    "Property Epsilon",
-  ];
+  // const properties = [
+  //   "Property Alpha",
+  //   "Property Beta",
+  //   "Property Gamma",
+  //   "Property Delta",
+  //   "Property Epsilon",
+  // ];
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      const response = await fetch("/api/facilities");
+      const data = await response.json();
+      console.log(data);
+      setProperties(data);
+    };
+
+    fetchProperties();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -92,9 +105,9 @@ function Signup() {
               </label>
               <select className="form-select" id="property" name="property">
                 <option value="">Select a property</option>
-                {properties.map((property, index) => (
-                  <option value={property} key={index}>
-                    {property}
+                {properties.map((property) => (
+                  <option value={property._id} key={property._id}>
+                    {property.name}
                   </option>
                 ))}
               </select>
