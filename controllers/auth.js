@@ -123,3 +123,15 @@ exports.getFacilities = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getFacilityName = async (req, res, next) => {
+  try {
+    const facility = await Facility.findById(req.params.id);
+    if (!facility) {
+      return res.status(404).json({ message: "Facility not found" });
+    }
+    res.json({ name: facility.name });
+  } catch (err) {
+    next(err);
+  }
+};

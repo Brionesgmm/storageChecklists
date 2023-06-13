@@ -14,5 +14,6 @@ router.post("/signup", authController.postSignup);
 
 // Get Facilities
 router.get("/facilities", authController.getFacilities);
+router.get("/facilities/:id", authController.getFacilityName);
 
 module.exports = router;

@@ -4,7 +4,6 @@ const TaskSchema = new mongoose.Schema({
   facilityId: {
     type: String,
     required: true,
-    unique: true, // Ensure that each facility name is unique
   },
   notes: {
     overlock: [String],

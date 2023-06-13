@@ -188,6 +188,10 @@ const TasksList = () => {
     JSON.parse(localStorage.getItem("totalPettyCash")) || ""
   );
   const [givenCash, setGivenCash] = useState(300);
+  const [facilityName, setFacilityName] = useState(null);
+
+  const facilityId = user ? user.property : null;
+  console.log(facilityId);
 
   const handleCheck = (index) => {
     setTasks(
@@ -197,15 +201,29 @@ const TasksList = () => {
     );
   };
 
-  // const handleInputChange = (index, setter) => (event) => {
-  //   setter((prev) => {
-  //     const copy = [...prev];
-  //     copy[index] = event.target.value;
-  //     return copy;
-  //   });
-  // };
+  async function getFacilityName() {
+    if (facilityId === null) {
+      return; // Return early if facilityId is null
+    }
+    try {
+      const response = await fetch(`/api/facilities/${facilityId}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setFacilityName(data.name);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
   useEffect(() => {
+    getFacilityName();
+  }, [facilityId]);
+
+  useEffect(() => {
+    // getFacilityName();
+    // console.log(facilityName);
     localStorage.setItem("tasks", JSON.stringify(tasks));
     localStorage.setItem("overlocks", JSON.stringify(overlocks));
     localStorage.setItem("reverseOverlocks", JSON.stringify(reverseOverlocks));
@@ -316,7 +334,7 @@ const TasksList = () => {
     <>
       <div className="userInfo">
         <h3>Employee: {user.userName}</h3>
-        <h3>Property: {user.property}</h3>
+        <h3>Property: {facilityName}</h3>
       </div>
       <div className="tabBtns">
         <button
