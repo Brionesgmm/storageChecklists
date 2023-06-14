@@ -69,6 +69,9 @@ app.use("*", (_, res) => {
   res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
 });
 
+// Schedule the cron jobs
+require("./utility/scheduledTasks");
+
 //Server Running
 app.listen(process.env.PORT, () => {
   console.log("Server is running, you better catch it!");

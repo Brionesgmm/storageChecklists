@@ -221,15 +221,18 @@ const TasksList = () => {
     getFacilityName();
   }, [facilityId]);
 
+  // useEffect for dealing with tasks related localStorage
   useEffect(() => {
-    // getFacilityName();
-    // console.log(facilityName);
     localStorage.setItem("tasks", JSON.stringify(tasks));
     localStorage.setItem("overlocks", JSON.stringify(overlocks));
     localStorage.setItem("reverseOverlocks", JSON.stringify(reverseOverlocks));
     localStorage.setItem("cleans", JSON.stringify(cleans));
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     localStorage.setItem("otherNotes", JSON.stringify(otherNotes));
+  }, [tasks, overlocks, reverseOverlocks, cleans, toDoList, otherNotes]);
+
+  // useEffect for dealing with cash related localStorage
+  useEffect(() => {
     localStorage.setItem("pennies", JSON.stringify(pennies));
     localStorage.setItem("nickels", JSON.stringify(nickels));
     localStorage.setItem("dimes", JSON.stringify(dimes));
@@ -245,12 +248,6 @@ const TasksList = () => {
     localStorage.setItem("totalPettyCash", JSON.stringify(totalPettyCash));
     localStorage.setItem("givenCash", JSON.stringify(givenCash));
   }, [
-    tasks,
-    overlocks,
-    reverseOverlocks,
-    cleans,
-    toDoList,
-    otherNotes,
     pennies,
     nickels,
     dimes,
@@ -264,7 +261,53 @@ const TasksList = () => {
     currentTotal,
     receipts,
     totalPettyCash,
+    givenCash,
   ]);
+
+  // useEffect(() => {
+  //   // getFacilityName();
+  //   // console.log(facilityName);
+  //   localStorage.setItem("tasks", JSON.stringify(tasks));
+  //   localStorage.setItem("overlocks", JSON.stringify(overlocks));
+  //   localStorage.setItem("reverseOverlocks", JSON.stringify(reverseOverlocks));
+  //   localStorage.setItem("cleans", JSON.stringify(cleans));
+  //   localStorage.setItem("toDoList", JSON.stringify(toDoList));
+  //   localStorage.setItem("otherNotes", JSON.stringify(otherNotes));
+  //   localStorage.setItem("pennies", JSON.stringify(pennies));
+  //   localStorage.setItem("nickels", JSON.stringify(nickels));
+  //   localStorage.setItem("dimes", JSON.stringify(dimes));
+  //   localStorage.setItem("quarters", JSON.stringify(quarters));
+  //   localStorage.setItem("ones", JSON.stringify(ones));
+  //   localStorage.setItem("fives", JSON.stringify(fives));
+  //   localStorage.setItem("tens", JSON.stringify(tens));
+  //   localStorage.setItem("twenties", JSON.stringify(twenties));
+  //   localStorage.setItem("fifties", JSON.stringify(fifties));
+  //   localStorage.setItem("hundreds", JSON.stringify(hundreds));
+  //   localStorage.setItem("currentTotal", JSON.stringify(currentTotal));
+  //   localStorage.setItem("receipts", JSON.stringify(receipts));
+  //   localStorage.setItem("totalPettyCash", JSON.stringify(totalPettyCash));
+  //   localStorage.setItem("givenCash", JSON.stringify(givenCash));
+  // }, [
+  //   tasks,
+  //   overlocks,
+  //   reverseOverlocks,
+  //   cleans,
+  //   toDoList,
+  //   otherNotes,
+  //   pennies,
+  //   nickels,
+  //   dimes,
+  //   quarters,
+  //   ones,
+  //   fives,
+  //   tens,
+  //   twenties,
+  //   fifties,
+  //   hundreds,
+  //   currentTotal,
+  //   receipts,
+  //   totalPettyCash,
+  // ]);
 
   function changeTab(key) {
     setIsActive({

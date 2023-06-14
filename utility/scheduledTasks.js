@@ -1,9 +1,9 @@
 const cron = require("node-cron");
-const Task = require("./models/Task");
-const Facility = require("./models/Facility");
+const Task = require("../models/Task");
+const Facility = require("../models/Facility");
 
 // Run this task every day at 00:00
-cron.schedule("0 0 * * *", async () => {
+cron.schedule("* * * * *", async () => {
   console.log("Running a task every day at midnight");
 
   try {
@@ -147,19 +147,23 @@ cron.schedule("0 0 * * *", async () => {
           // Add the rest of the tasks here
         ],
         pettyCash: {
-          pennies: { denomination: "pennies", value: "" },
-          nickels: { denomination: "nickels", value: "" },
-          dimes: { denomination: "dimes", value: "" },
-          quarters: { denomination: "quarters", value: "" },
-          ones: { denomination: "ones", value: "" },
-          fives: { denomination: "fives", value: "" },
-          tens: { denomination: "tens", value: "" },
-          twenties: { denomination: "twenties", value: "" },
-          fifties: { denomination: "fifties", value: "" },
-          hundreds: { denomination: "hundreds", value: "" },
-          currentTotal: "",
-          receipts: "",
-          totalPettyCash: "",
+          denominations: [
+            { denomination: "pennies", value: 0 },
+            { denomination: "nickels", value: 0 },
+            { denomination: "dimes", value: 0 },
+            { denomination: "quarters", value: 0 },
+            { denomination: "ones", value: 0 },
+            { denomination: "fives", value: 0 },
+            { denomination: "tens", value: 0 },
+            { denomination: "twenties", value: 0 },
+            { denomination: "fifties", value: 0 },
+            { denomination: "hundreds", value: 0 },
+          ],
+          cashAmounts: [
+            { amount: "currentTotal", value: 0 },
+            { amount: "receipts", value: 0 },
+            { amount: "totalPettyCash", value: 0 },
+          ],
         },
         user: null, // Start with no user assigned
       });

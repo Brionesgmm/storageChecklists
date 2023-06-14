@@ -15,7 +15,7 @@ const TaskSchema = new mongoose.Schema({
   dailyTasks: [{ label: String, checked: Boolean }],
   pettyCash: {
     denominations: [{ denomination: String, value: Number }],
-    total: Number,
+    // total: Number,
     cashAmounts: [{ amount: String, value: Number }],
   },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
