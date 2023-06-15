@@ -8,6 +8,8 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 router.post("/createTask", tasksController.createTask);
 
+router.get("/emptyTask", tasksController.getTask);
+
 // router.put("/likePost/:id", tasksController.likePost);
 
 // router.delete("/deletePost/:id", tasksController.deletePost);
