@@ -1,6 +1,7 @@
 import React from "react";
 
 const DailyTasks = ({ tasks, handleCheck }) => {
+  console.log("loading daily task");
   return (
     <div className="tasksSection">
       <label className="taskTitle">Daily Tasks:</label>
