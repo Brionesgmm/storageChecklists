@@ -10,7 +10,7 @@ router.post("/createTask", tasksController.createTask);
 
 router.get("/emptyTask", tasksController.getTask);
 
-// router.put('/updateTask', tasksController.updateTask)
+router.put("/updateTask", tasksController.updateTask);
 
 // router.put("/likePost/:id", tasksController.likePost);
 

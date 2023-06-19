@@ -609,6 +609,58 @@ const TasksList = () => {
     }
   };
 
+  async function handleUpdateTask(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = {
+      facilityId: user.property,
+      notes: {
+        overlock: overlocks,
+        reverseOverlock: reverseOverlocks,
+        clean: cleans,
+        toDoList: toDoList,
+        otherNotes: otherNotes,
+      },
+      dailyTasks: tasks,
+      pettyCash: {
+        denominations: [
+          { denomination: "pennies", value: pennies },
+          { denomination: "nickels", value: nickels },
+          { denomination: "dimes", value: dimes },
+          { denomination: "quarters", value: quarters },
+          { denomination: "ones", value: ones },
+          { denomination: "fives", value: fives },
+          { denomination: "tens", value: tens },
+          { denomination: "twenties", value: twenties },
+          { denomination: "fifties", value: fifties },
+          { denomination: "hundreds", value: hundreds },
+        ],
+        cashAmounts: [
+          { amount: "receipts", value: receipts },
+          { amount: "currentTotal", value: currentTotal },
+          { amount: "totalPettyCash", value: totalPettyCash },
+          { amount: "givenCash", value: givenCash },
+        ],
+      },
+      user: user._id, // assuming user object has an _id field
+    };
+
+    console.log(data);
+
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+
+    if (json.messages) {
+      setMessages(json.messages);
+    }
+  }
+
   return (
     <>
       <div className="userInfo">
@@ -636,10 +688,10 @@ const TasksList = () => {
         </button>
       </div>
       <form
-        action="/api/task/createTask"
+        action="/api/task/updateTask?_method=PUT"
         encType="multipart/form-data"
         method="POST"
-        onSubmit={handleSubmit}
+        onSubmit={handleUpdateTask}
       >
         <button className="btn submitBtn" type="submit">
           Submit
