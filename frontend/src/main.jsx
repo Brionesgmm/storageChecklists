@@ -14,6 +14,7 @@ import Feed from "./routes/Feed";
 import Post from "./routes/Post";
 import FormContainer from "./routes/FormContainer";
 import TasksList from "./routes/TasksList";
+import Admin from "./routes/Admin";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/post/:id",
         element: <Post />,
+      },
+      {
+        path: "/admin",
+        element: <Admin />,
       },
     ],
   },

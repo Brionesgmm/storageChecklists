@@ -664,6 +664,9 @@ const TasksList = () => {
   return (
     <>
       <div className="userInfo">
+        <Link to="/admin" className="col-3 btn btn-primary">
+          Admin
+        </Link>
         <h3>Employee: {user.userName}</h3>
         <h3>Property: {facilityName}</h3>
       </div>
