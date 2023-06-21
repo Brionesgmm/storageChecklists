@@ -12,6 +12,8 @@ router.get("/emptyTask", tasksController.getTask);
 
 router.put("/updateTask", tasksController.updateTask);
 
+router.get("/facilityTask", tasksController.getFacilityTask);
+
 // router.put("/likePost/:id", tasksController.likePost);
 
 // router.delete("/deletePost/:id", tasksController.deletePost);

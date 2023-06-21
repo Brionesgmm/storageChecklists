@@ -73,4 +73,43 @@ module.exports = {
       res.status(500).json({ error: err });
     }
   },
+  getFacilityTask: async (req, res) => {
+    try {
+      const { facilityId, date } = req.query;
+
+      if (!facilityId || !date) {
+        return res
+          .status(400)
+          .json({ message: "FacilityId and date are required." });
+      }
+
+      // Parse date string into a Date object in UTC
+      const taskDate = new Date(`${date}T00:00:00Z`);
+
+      // Find the task for the given facility and date
+      const task = await Task.findOne({
+        facilityId: facilityId,
+        createdDate: {
+          $gte: taskDate,
+          // Use $lt (less than) operator to ensure the date range excludes the next day
+          $lt: new Date(
+            Date.UTC(
+              taskDate.getUTCFullYear(),
+              taskDate.getUTCMonth(),
+              taskDate.getUTCDate() + 1
+            )
+          ),
+        },
+      });
+
+      if (!task) {
+        return res.status(404).json({
+          message: "No tasks found for this facility on the specified date.",
+        });
+      }
+      res.json(task);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
