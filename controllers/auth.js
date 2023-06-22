@@ -115,6 +115,18 @@ exports.postSignup = (req, res, next) => {
   );
 };
 
+exports.getFormUserInfo = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getFacilities = async (req, res, next) => {
   try {
     const facilities = await Facility.find();

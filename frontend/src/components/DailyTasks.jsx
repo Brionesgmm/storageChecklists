@@ -1,6 +1,6 @@
 import React from "react";
 
-const DailyTasks = ({ tasks, handleCheck }) => {
+const DailyTasks = ({ tasks, handleCheck, readOnly }) => {
   console.log("loading daily task");
   return (
     <div className="tasksSection">
@@ -11,12 +11,15 @@ const DailyTasks = ({ tasks, handleCheck }) => {
             {task.label}
           </label>
           <input
+            readOnly={readOnly}
             className="taskInput"
             type="checkbox"
             checked={task.checked}
             name={`dailyTask${index}`}
             id={`dailyTask${index}`}
-            onChange={() => handleCheck(index)}
+            onChange={() => {
+              if (handleCheck) handleCheck(index);
+            }}
           />
         </div>
       ))}

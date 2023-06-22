@@ -700,7 +700,11 @@ const TasksList = () => {
           Submit
         </button>
         {isActive.tasksActive && (
-          <DailyTasks tasks={tasks} handleCheck={handleCheck} />
+          <DailyTasks
+            tasks={tasks}
+            handleCheck={handleCheck}
+            readOnly={false}
+          />
         )}
         {isActive.notesActive && (
           <Notes
@@ -714,6 +718,7 @@ const TasksList = () => {
             setToDoList={setToDoList}
             otherNotes={otherNotes}
             setOtherNotes={setOtherNotes}
+            readOnly={false}
           />
         )}
         {isActive.pettyActive && (
@@ -745,6 +750,7 @@ const TasksList = () => {
             totalPettyCash={totalPettyCash}
             setTotalPettyCash={setTotalPettyCash}
             givenCash={givenCash}
+            readOnly={false}
           />
         )}
       </form>

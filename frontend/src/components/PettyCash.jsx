@@ -28,18 +28,19 @@ const PettyCash = ({
   totalPettyCash,
   setTotalPettyCash,
   givenCash,
+  readOnly,
 }) => {
   const [prevDenominations, setPrevDenominations] = useState({
-    pennies,
-    nickels,
-    dimes,
-    quarters,
-    ones,
-    fives,
-    tens,
-    twenties,
-    fifties,
-    hundreds,
+    pennies: pennies || "",
+    nickels: nickels || "",
+    dimes: dimes || "",
+    quarters: quarters || "",
+    ones: ones || "",
+    fives: fives || "",
+    tens: tens || "",
+    twenties: twenties || "",
+    fifties: fifties || "",
+    hundreds: hundreds || "",
   });
 
   const handleCurrentTotalChange = (value) => {
@@ -120,10 +121,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="pennies">Pennies: </label>
           <input
+            readOnly={readOnly}
             type="number"
             name="pennies"
             id="pennies"
-            value={pennies}
+            value={pennies ? pennies : ""}
             onChange={(e) => setPennies(e.target.value)}
           />
         </div>
@@ -131,10 +133,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="nickels">Nickels: </label>
           <input
+            readOnly={readOnly}
             type="number"
             name="nickels"
             id="nickels"
-            value={nickels}
+            value={nickels ? nickels : ""}
             onChange={(e) => setNickels(e.target.value)}
           />
         </div>
@@ -142,10 +145,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="dimes">Dimes: </label>
           <input
+            readOnly={readOnly}
             type="number"
             name="dimes"
             id="dimes"
-            value={dimes}
+            value={dimes ? dimes : ""}
             onChange={(e) => setDimes(e.target.value)}
           />
         </div>
@@ -153,10 +157,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="quarters">Quarters:</label>
           <input
+            readOnly={readOnly}
             type="number"
             name="quarters"
             id="quarters"
-            value={quarters}
+            value={quarters ? quarters : ""}
             onChange={(e) => setQuarters(e.target.value)}
           />
         </div>
@@ -164,10 +169,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="ones">Ones:</label>
           <input
+            readOnly={readOnly}
             type="number"
             name="ones"
             id="ones"
-            value={ones}
+            value={ones ? ones : ""}
             onChange={(e) => setOnes(e.target.value)}
           />
         </div>
@@ -175,10 +181,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="fives">Fives:</label>
           <input
+            readOnly={readOnly}
             type="number"
             name="fives"
             id="fives"
-            value={fives}
+            value={fives ? fives : ""}
             onChange={(e) => setFives(e.target.value)}
           />
         </div>
@@ -186,10 +193,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="tens">Tens:</label>
           <input
+            readOnly={readOnly}
             type="number"
             name="tens"
             id="tens"
-            value={tens}
+            value={tens ? tens : ""}
             onChange={(e) => setTens(e.target.value)}
           />
         </div>
@@ -197,10 +205,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="twenties">Twenties:</label>
           <input
+            readOnly={readOnly}
             type="number"
             name="twenties"
             id="twenties"
-            value={twenties}
+            value={twenties ? twenties : ""}
             onChange={(e) => setTwenties(e.target.value)}
           />
         </div>
@@ -208,10 +217,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="fifties">Fifties: </label>
           <input
+            readOnly={readOnly}
             type="number"
             name="fifties"
             id="fifties"
-            value={fifties}
+            value={fifties ? fifties : ""}
             onChange={(e) => setFifties(e.target.value)}
           />
         </div>
@@ -219,10 +229,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="hundreds">Hundreds: </label>
           <input
+            readOnly={readOnly}
             type="number"
             name="hundreds"
             id="hundreds"
-            value={hundreds}
+            value={hundreds ? hundreds : ""}
             onChange={(e) => setHundreds(e.target.value)}
           />
         </div>
@@ -231,10 +242,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="receipts">Receipts: </label>
           <input
+            readOnly={readOnly}
             type="number"
             name="receipts"
             id="receipts"
-            value={receipts}
+            value={receipts ? receipts : ""}
             onChange={(e) => setReceipts(e.target.value)}
           />
         </div>
@@ -243,10 +255,11 @@ const PettyCash = ({
         <div className="cashInputs">
           <label htmlFor="currentTotal">Current Cash: </label>
           <input
+            readOnly={readOnly}
             type="number"
             name="currentTotal"
             id="currentTotal"
-            value={currentTotal}
+            value={currentTotal ? currentTotal : ""}
             onChange={(e) => handleCurrentTotalChange(e.target.value)}
           />
         </div>
@@ -258,7 +271,7 @@ const PettyCash = ({
             type="number"
             name="totalPettyCash"
             id="totalPettyCash"
-            value={totalPettyCash}
+            value={totalPettyCash ? totalPettyCash : ""}
             readOnly
           />
         </div>
@@ -270,7 +283,7 @@ const PettyCash = ({
             type="number"
             name="givenCash"
             id="givenCash"
-            value={givenCash}
+            value={givenCash ? givenCash : ""}
             readOnly
           />
         </div>

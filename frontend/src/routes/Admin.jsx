@@ -1,5 +1,8 @@
 import { React, useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
+import DailyTasks from "../components/DailyTasks";
+import Notes from "../components/Notes";
+import PettyCash from "../components/PettyCash";
 
 const Admin = () => {
   const { user, setMessages } = useOutletContext();
@@ -30,6 +33,13 @@ const Admin = () => {
   const [totalPettyCash, setTotalPettyCash] = useState("");
   const [givenCash, setGivenCash] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [taskFillerId, setTaskFillerId] = useState("");
+  const [taskFillerName, setTaskFillerName] = useState("");
+  const [isActive, setIsActive] = useState({
+    tasksActive: true,
+    notesActive: false,
+    pettyActive: false,
+  });
   console.log(isUserAdmin);
   console.log(user);
 
@@ -41,9 +51,24 @@ const Admin = () => {
       console.log(data);
       setProperties(data);
     };
-
     fetchProperties();
   }, []);
+
+  //get filled out form user
+  useEffect(() => {
+    const fetchFillerName = async () => {
+      const response = await fetch(`/api/formUserInfo/${taskFillerId}`);
+      const data = await response.json();
+      console.log(data);
+      console.log(data.userName);
+      setTaskFillerName(data.userName);
+    };
+    if (taskFillerId) {
+      fetchFillerName();
+    } else {
+      setTaskFillerName("");
+    }
+  }, [taskFillerId]);
 
   // store isAdmin for user
   useEffect(() => {
@@ -103,10 +128,20 @@ const Admin = () => {
       setTotalPettyCash(
         findValue(data.pettyCash.cashAmounts, "amount", "totalPettyCash")
       );
+      setTaskFillerId(data.user);
+      console.log(taskFillerId);
       setErrorMessage("");
     } else {
       setErrorMessage(data.message);
     }
+  }
+
+  function changeTab(key) {
+    setIsActive({
+      tasksActive: key === "tasksActive",
+      notesActive: key === "notesActive",
+      pettyActive: key === "pettyActive",
+    });
   }
 
   return (
@@ -141,8 +176,89 @@ const Admin = () => {
           onChange={(e) => setSelectedDate(e.target.value)}
         />
       </div>
-      {errorMessage && <h2>{errorMessage}</h2>}
       <button onClick={getTaskData}>Find Task</button>
+      {errorMessage && <h2>{errorMessage}</h2>}
+      {!errorMessage && (
+        <div className="pastDataDisplay">
+          <h2>Daily tasks filled by: {taskFillerName}</h2>
+          {
+            <div className="tabBtns">
+              <button
+                className="btn tasksBtn"
+                onClick={() => changeTab("tasksActive")}
+              >
+                Daily Tasks
+              </button>
+              <button
+                className="btn notesBtn"
+                onClick={() => changeTab("notesActive")}
+              >
+                Notes
+              </button>
+              <button
+                className="btn pettyBtn"
+                onClick={() => changeTab("pettyActive")}
+              >
+                Petty Cash
+              </button>
+            </div>
+          }
+          {
+            <div>
+              {isActive.tasksActive && (
+                <DailyTasks tasks={tasks} readOnly={true} />
+              )}
+              {isActive.notesActive && (
+                <Notes
+                  overlocks={overlocks}
+                  setOverlocks={setOverlocks}
+                  reverseOverlocks={reverseOverlocks}
+                  setReverseOverlocks={setReverseOverlocks}
+                  cleans={cleans}
+                  setCleans={setCleans}
+                  toDoList={toDoList}
+                  setToDoList={setToDoList}
+                  otherNotes={otherNotes}
+                  setOtherNotes={setOtherNotes}
+                  readOnly={true}
+                />
+              )}
+              {isActive.pettyActive && (
+                <PettyCash
+                  pennies={pennies}
+                  setPennies={setPennies}
+                  nickels={nickels}
+                  setNickels={setNickels}
+                  dimes={dimes}
+                  setDimes={setDimes}
+                  quarters={quarters}
+                  setQuarters={setQuarters}
+                  ones={ones}
+                  setOnes={setOnes}
+                  fives={fives}
+                  setFives={setFives}
+                  tens={tens}
+                  setTens={setTens}
+                  twenties={twenties}
+                  setTwenties={setTwenties}
+                  fifties={fifties}
+                  setFifties={setFifties}
+                  hundreds={hundreds}
+                  setHundreds={setHundreds}
+                  currentTotal={currentTotal}
+                  setCurrentTotal={setCurrentTotal}
+                  receipts={receipts}
+                  setReceipts={setReceipts}
+                  totalPettyCash={totalPettyCash}
+                  setTotalPettyCash={setTotalPettyCash}
+                  givenCash={givenCash}
+                  readOnly={true}
+                />
+              )}
+            </div>
+          }
+        </div>
+      )}
       {!isUserAdmin && <h1>You don't have access to this page.</h1>}
     </>
   );

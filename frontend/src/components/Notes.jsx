@@ -11,6 +11,7 @@ const Notes = ({
   setToDoList,
   otherNotes,
   setOtherNotes,
+  readOnly,
 }) => {
   const handleInputChange = (index, setter) => (event) => {
     setter((prev) => {
@@ -28,6 +29,7 @@ const Notes = ({
             <label>Overlocks:</label>
             {overlocks.map((value, index) => (
               <input
+                readOnly={readOnly}
                 key={index}
                 name={`overlock${index}`}
                 value={value}
@@ -39,6 +41,7 @@ const Notes = ({
             <label>Reverse Overlocks:</label>
             {reverseOverlocks.map((value, index) => (
               <input
+                readOnly={readOnly}
                 key={index}
                 name={`reverseOverlock${index}`}
                 value={value}
@@ -50,6 +53,7 @@ const Notes = ({
             <label>Cleaned:</label>
             {cleans.map((value, index) => (
               <input
+                readOnly={readOnly}
                 key={index}
                 name={`clean${index}`}
                 value={value}
@@ -62,6 +66,7 @@ const Notes = ({
           <label>Todo List:</label>
           {toDoList.map((value, index) => (
             <input
+              readOnly={readOnly}
               key={index}
               name={`toDoList${index}`}
               value={value}
@@ -73,6 +78,7 @@ const Notes = ({
           <label>Other Notes:</label>
           {otherNotes.map((value, index) => (
             <input
+              readOnly={readOnly}
               key={index}
               name={`otherNotes${index}`}
               value={value}
