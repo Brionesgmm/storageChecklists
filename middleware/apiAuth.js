@@ -6,4 +6,4 @@ function checkApiKey(req, res, next) {
   next();
 }
 
-export default checkApiKey;
+module.exports = checkApiKey;
