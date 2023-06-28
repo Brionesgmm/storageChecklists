@@ -192,6 +192,7 @@ const TasksList = () => {
   const [lastVisit, setLastVisit] = useState(
     localStorage.getItem("lastVisit") || "1970-01-01"
   );
+  const [isDataSubmitted, setIsDataSubmitted] = useState(false);
 
   const facilityId = user ? user.property : null;
   console.log(facilityId);
@@ -202,6 +203,7 @@ const TasksList = () => {
         i === index ? { ...task, checked: !task.checked } : task
       )
     );
+    setIsDataSubmitted(false);
   };
 
   async function getFacilityName() {
@@ -465,6 +467,7 @@ const TasksList = () => {
     localStorage.setItem("cleans", JSON.stringify(cleans));
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
     localStorage.setItem("otherNotes", JSON.stringify(otherNotes));
+    setIsDataSubmitted(false);
   }, [tasks, overlocks, reverseOverlocks, cleans, toDoList, otherNotes]);
 
   // useEffect for dealing with cash related localStorage
@@ -483,6 +486,7 @@ const TasksList = () => {
     localStorage.setItem("receipts", JSON.stringify(receipts));
     localStorage.setItem("totalPettyCash", JSON.stringify(totalPettyCash));
     localStorage.setItem("givenCash", JSON.stringify(givenCash));
+    setIsDataSubmitted(false);
   }, [
     pennies,
     nickels,
@@ -545,6 +549,24 @@ const TasksList = () => {
   //   totalPettyCash,
   // ]);
 
+  // Prompts user to save data if not submiited
+  useEffect(() => {
+    const beforeUnloadEvent = (event) => {
+      if (!isDataSubmitted) {
+        event.preventDefault();
+        event.returnValue =
+          "You have unsaved changes, are you sure you want to leave?";
+      }
+    };
+
+    window.addEventListener("beforeunload", beforeUnloadEvent);
+
+    // Don't forget to clean up the event listener
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadEvent);
+    };
+  }, [isDataSubmitted]); // Re-run the effect when `isDataSubmitted` changes
+
   function changeTab(key) {
     setIsActive({
       tasksActive: key === "tasksActive",
@@ -557,57 +579,57 @@ const TasksList = () => {
     return null;
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const data = {
-      facilityId: user.property,
-      notes: {
-        overlock: overlocks,
-        reverseOverlock: reverseOverlocks,
-        clean: cleans,
-        toDoList: toDoList,
-        otherNotes: otherNotes,
-      },
-      dailyTasks: tasks,
-      pettyCash: {
-        denominations: [
-          { denomination: "pennies", value: pennies },
-          { denomination: "nickels", value: nickels },
-          { denomination: "dimes", value: dimes },
-          { denomination: "quarters", value: quarters },
-          { denomination: "ones", value: ones },
-          { denomination: "fives", value: fives },
-          { denomination: "tens", value: tens },
-          { denomination: "twenties", value: twenties },
-          { denomination: "fifties", value: fifties },
-          { denomination: "hundreds", value: hundreds },
-        ],
-        cashAmounts: [
-          { amount: "receipts", value: receipts },
-          { amount: "currentTotal", value: currentTotal },
-          { amount: "totalPettyCash", value: totalPettyCash },
-          { amount: "givenCash", value: givenCash },
-        ],
-      },
-      user: user._id, // assuming user object has an _id field
-    };
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const form = event.currentTarget;
+  //   const data = {
+  //     facilityId: user.property,
+  //     notes: {
+  //       overlock: overlocks,
+  //       reverseOverlock: reverseOverlocks,
+  //       clean: cleans,
+  //       toDoList: toDoList,
+  //       otherNotes: otherNotes,
+  //     },
+  //     dailyTasks: tasks,
+  //     pettyCash: {
+  //       denominations: [
+  //         { denomination: "pennies", value: pennies },
+  //         { denomination: "nickels", value: nickels },
+  //         { denomination: "dimes", value: dimes },
+  //         { denomination: "quarters", value: quarters },
+  //         { denomination: "ones", value: ones },
+  //         { denomination: "fives", value: fives },
+  //         { denomination: "tens", value: tens },
+  //         { denomination: "twenties", value: twenties },
+  //         { denomination: "fifties", value: fifties },
+  //         { denomination: "hundreds", value: hundreds },
+  //       ],
+  //       cashAmounts: [
+  //         { amount: "receipts", value: receipts },
+  //         { amount: "currentTotal", value: currentTotal },
+  //         { amount: "totalPettyCash", value: totalPettyCash },
+  //         { amount: "givenCash", value: givenCash },
+  //       ],
+  //     },
+  //     user: user._id, // assuming user object has an _id field
+  //   };
 
-    console.log(data);
+  //   console.log(data);
 
-    const response = await fetch(form.action, {
-      method: form.method,
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const json = await response.json();
+  //   const response = await fetch(form.action, {
+  //     method: form.method,
+  //     body: JSON.stringify(data),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   const json = await response.json();
 
-    if (json.messages) {
-      setMessages(json.messages);
-    }
-  };
+  //   if (json.messages) {
+  //     setMessages(json.messages);
+  //   }
+  // };
 
   async function handleUpdateTask(event) {
     event.preventDefault();
@@ -659,6 +681,7 @@ const TasksList = () => {
     if (json.messages) {
       setMessages(json.messages);
     }
+    setIsDataSubmitted(true);
   }
 
   return (
