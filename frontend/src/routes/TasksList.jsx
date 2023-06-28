@@ -286,7 +286,12 @@ const TasksList = () => {
       return; // Exit the effect if user data is not available yet
     }
 
-    const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+    // const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+    const now = new Date();
+    const offset = now.getTimezoneOffset() + 420; // Adjust for MST
+    now.setMinutes(now.getMinutes() - offset);
+    const today = now.toISOString().split("T")[0];
+
     console.log(today, lastVisit);
 
     if (lastVisit !== today) {
@@ -458,7 +463,7 @@ const TasksList = () => {
       setGivenCash(JSON.parse(localStorage.getItem("givenCash")) || "");
       setFacilityName(JSON.parse(localStorage.getItem("facilityName")) || "");
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     getFacilityName();

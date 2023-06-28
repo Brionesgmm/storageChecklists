@@ -101,7 +101,8 @@ module.exports = {
             )
           ),
         },
-      });
+      }).sort({ createdDate: -1 });
+      console.log(task);
 
       if (!task) {
         return res.status(404).json({

@@ -43,6 +43,10 @@ const Admin = () => {
   console.log(isUserAdmin);
   console.log(user);
 
+  // if (!isUserAdmin) {
+  //   return <h1>You don't have access to this page.</h1>;
+  // }
+
   // get list of facilities
   useEffect(() => {
     const fetchProperties = async () => {
