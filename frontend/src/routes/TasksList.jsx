@@ -280,6 +280,12 @@ const TasksList = () => {
   }
 
   useEffect(() => {
+    // Check if user is defined and has property
+    if (!user || !user.property) {
+      console.error("User or user property is undefined");
+      return; // Exit the effect if user data is not available yet
+    }
+
     const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
     console.log(today, lastVisit);
 
