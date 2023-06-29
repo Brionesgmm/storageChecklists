@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Outlet } from "react-router-dom";
 import DailyTasks from "../components/DailyTasks";
 import Notes from "../components/Notes";
 import PettyCash from "../components/PettyCash";
@@ -264,6 +264,7 @@ const Admin = () => {
         </div>
       )}
       {!isUserAdmin && <h1>You don't have access to this page.</h1>}
+      <Outlet />
     </>
   );
 };

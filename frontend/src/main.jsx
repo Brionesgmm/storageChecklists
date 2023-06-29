@@ -15,6 +15,8 @@ import Post from "./routes/Post";
 import FormContainer from "./routes/FormContainer";
 import TasksList from "./routes/TasksList";
 import Admin from "./routes/Admin";
+import Facilities from "./routes/Facilities";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -52,6 +54,12 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: <Admin />,
+        children: [
+          {
+            index: true,
+            element: <Facilities />,
+          },
+        ],
       },
     ],
   },
