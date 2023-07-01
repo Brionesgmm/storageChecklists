@@ -14,8 +14,10 @@ import Feed from "./routes/Feed";
 import Post from "./routes/Post";
 import FormContainer from "./routes/FormContainer";
 import TasksList from "./routes/TasksList";
-import Admin from "./routes/Admin";
+import PastTasks from "./routes/PastTasks";
 import Facilities from "./routes/Facilities";
+import AdminNav from "./components/AdminNav";
+import Employees from "./routes/Employees";
 
 const router = createBrowserRouter([
   {
@@ -53,12 +55,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin",
-        element: <Admin />,
+        element: <AdminNav />,
         children: [
           {
             index: true,
+            element: <PastTasks />,
+          },
+          {
+            path: "facilities",
             element: <Facilities />,
           },
+          { path: "employees", element: <Employees /> },
         ],
       },
     ],

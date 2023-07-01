@@ -4,7 +4,7 @@ import DailyTasks from "../components/DailyTasks";
 import Notes from "../components/Notes";
 import PettyCash from "../components/PettyCash";
 
-const Admin = () => {
+const PastTasks = () => {
   const { user, setMessages } = useOutletContext();
   const [properties, setProperties] = useState([]);
   const [isUserAdmin, setIsUserAdmin] = useState(
@@ -264,9 +264,8 @@ const Admin = () => {
         </div>
       )}
       {!isUserAdmin && <h1>You don't have access to this page.</h1>}
-      <Outlet />
     </>
   );
 };
 
-export default Admin;
+export default PastTasks;
