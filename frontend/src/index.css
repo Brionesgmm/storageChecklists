@@ -170,6 +170,12 @@
   margin: 0.5em; /* This will give some space around each button */
 }
 
+.active,
+.active:hover {
+  background-color: #4caf50; /* A green color */
+  color: white; /* White text */
+}
+
 @media screen and (max-width: 325px) {
   .tabBtns button {
     width: 100%; /* This will make the button take full width on smaller screens */
