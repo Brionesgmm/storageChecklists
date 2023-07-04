@@ -16,7 +16,7 @@ const Facilities = () => {
     };
 
     fetchProperties();
-  }, [allFacilities]);
+  }, []);
 
   useEffect(() => {
     const fetchEmployeeNames = async () => {
@@ -32,7 +32,7 @@ const Facilities = () => {
         }
       }
       setEmployeeNames(newEmployeeNames);
-      console.log(employeeNames);
+      console.log(newEmployeeNames);
     };
 
     if (allFacilities.length > 0) {
@@ -61,9 +61,9 @@ const Facilities = () => {
       return;
     }
 
-    const newFacility = await response.json();
+    const { facility } = await response.json();
 
-    setAllFacilities([...allFacilities, newFacility]);
+    setAllFacilities([...allFacilities, facility]);
     setNewFacilityName("");
     setNewFacilityAddress("");
     setShowForm(false);
@@ -73,14 +73,14 @@ const Facilities = () => {
     const employeeElements =
       facility.employees && facility.employees.length > 0 ? (
         facility.employees.map((employeeId) => (
-          <h3>{employeeNames[employeeId]}</h3>
+          <h3 key={employeeId}>{employeeNames[employeeId]}</h3>
         ))
       ) : (
         <h3>No employees</h3>
       );
-
+    console.log(facility._id);
     return (
-      <div className="facility">
+      <div className="facility" key={facility._id}>
         <h2>{facility.name}</h2>
         <h2>{facility.address}</h2>
         <div>{employeeElements}</div>
