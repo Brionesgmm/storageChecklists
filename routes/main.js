@@ -19,5 +19,6 @@ router.get("/facilities/:id", authController.getFacilityName);
 // Get User info
 router.get("/formUserInfo/:id", authController.getFormUserInfo);
 router.post("/createFacility", authController.createFacility);
+router.delete("/deleteFacility/:id", authController.deleteFacility);
 
 module.exports = router;

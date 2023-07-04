@@ -161,3 +161,16 @@ exports.createFacility = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.deleteFacility = async (req, res) => {
+  try {
+    await Facility.deleteOne({ _id: req.params.id });
+    console.log("Deleted Facility");
+    res.json({ message: "Facility deleted successfully" });
+    // res.redirect("/profile");
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the facility" });
+  }
+};

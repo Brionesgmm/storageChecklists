@@ -69,6 +69,29 @@ const Facilities = () => {
     setShowForm(false);
   };
 
+  const deleteFacility = async (event, facilityId, facilityName) => {
+    event.preventDefault();
+
+    const confirmed = window.confirm(
+      `Are you sure you want to delete ${facilityName}?`
+    );
+    if (!confirmed) {
+      return; // Abort if the user cancels the deletion
+    }
+
+    const form = event.currentTarget;
+    const response = await fetch(form.action, {
+      method: form.method,
+    });
+    if (response.ok) {
+      setAllFacilities(
+        allFacilities.filter((facility) => facility._id !== facilityId)
+      );
+    } else {
+      console.error("There was an error deleting the facility");
+    }
+  };
+
   const facilitiesElement = allFacilities.map((facility) => {
     const employeeElements =
       facility.employees && facility.employees.length > 0 ? (
@@ -84,6 +107,19 @@ const Facilities = () => {
         <h2>{facility.name}</h2>
         <h2>{facility.address}</h2>
         <div>{employeeElements}</div>
+        <form
+          action={`/api/deleteFacility/${facility._id}?_method=DELETE`}
+          method="POST"
+          className="col-3"
+          onSubmit={(event) =>
+            deleteFacility(event, facility._id, facility.name)
+          }
+        >
+          <button
+            className="btn btn-primary fa fa-trash"
+            type="submit"
+          ></button>
+        </form>
       </div>
     );
   });
