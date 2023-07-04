@@ -147,3 +147,17 @@ exports.getFacilityName = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.createFacility = async (req, res) => {
+  try {
+    const facility = await Facility.create({
+      name: req.body.name,
+      address: req.body.address,
+      employees: req.body.employees,
+    });
+    console.log("Facility has been added!");
+    res.json({ facility });
+  } catch (err) {
+    console.log(err);
+  }
+};
