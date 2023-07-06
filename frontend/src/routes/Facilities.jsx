@@ -6,6 +6,11 @@ const Facilities = () => {
   const [newFacilityName, setNewFacilityName] = useState("");
   const [newFacilityAddress, setNewFacilityAddress] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [editFacilityId, setEditFacilityId] = useState(null);
+  const [editFacilityName, setEditFacilityName] = useState("");
+  const [editFacilityAddress, setEditFacilityAddress] = useState("");
+  const [initialFacilityName, setInitialFacilityName] = useState("");
+  const [initialFacilityAddress, setInitialFacilityAddress] = useState("");
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -92,6 +97,106 @@ const Facilities = () => {
     }
   };
 
+  const handleEdit = (facilityId, facilityName, facilityAddress) => {
+    if (
+      editFacilityId !== null &&
+      (editFacilityName !== initialFacilityName ||
+        editFacilityAddress !== initialFacilityAddress)
+    ) {
+      const confirmed = window.confirm(
+        `Are you sure you want to cancel updating ${editFacilityName}?`
+      );
+      if (confirmed) {
+        setInitialValues();
+      }
+    } else if (editFacilityId !== facilityId) {
+      setEditFacilityId(facilityId);
+      setEditFacilityName(facilityName);
+      setEditFacilityAddress(facilityAddress);
+      setInitialFacilityName(facilityName);
+      setInitialFacilityAddress(facilityAddress);
+    }
+  };
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (
+        editFacilityId !== null &&
+        (editFacilityName !== initialFacilityName ||
+          editFacilityAddress !== initialFacilityAddress)
+      ) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [editFacilityId, editFacilityName, editFacilityAddress]);
+
+  const handleCancelUpdate = () => {
+    if (
+      editFacilityId !== null &&
+      (editFacilityName !== initialFacilityName ||
+        editFacilityAddress !== initialFacilityAddress)
+    ) {
+      const confirmed = window.confirm(
+        `Are you sure you want to cancel updating ${editFacilityName}?`
+      );
+      if (confirmed) {
+        setInitialValues();
+      }
+    } else {
+      setInitialValues();
+    }
+  };
+
+  const setInitialValues = () => {
+    setEditFacilityId(null);
+    setEditFacilityName("");
+    setEditFacilityAddress("");
+    setInitialFacilityName("");
+    setInitialFacilityAddress("");
+  };
+
+  const updateFacility = async (event, facilityId) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+
+    const response = await fetch(form.action, {
+      method: form.method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: editFacilityName,
+        address: editFacilityAddress,
+      }),
+    });
+
+    if (response.ok) {
+      setAllFacilities((prevFacilities) =>
+        prevFacilities.map((facility) =>
+          facility._id === facilityId
+            ? {
+                ...facility,
+                name: editFacilityName,
+                address: editFacilityAddress,
+              }
+            : facility
+        )
+      );
+      setEditFacilityId(null);
+      setEditFacilityName("");
+      setEditFacilityAddress("");
+    } else {
+      console.error("There was an error updating the facility");
+    }
+  };
+
   const facilitiesElement = allFacilities.map((facility) => {
     const employeeElements =
       facility.employees && facility.employees.length > 0 ? (
@@ -104,22 +209,57 @@ const Facilities = () => {
     console.log(facility._id);
     return (
       <div className="facility" key={facility._id}>
-        <h2>{facility.name}</h2>
-        <h2>{facility.address}</h2>
-        <div>{employeeElements}</div>
-        <form
-          action={`/api/deleteFacility/${facility._id}?_method=DELETE`}
-          method="POST"
-          className="col-3"
-          onSubmit={(event) =>
-            deleteFacility(event, facility._id, facility.name)
-          }
-        >
-          <button
-            className="btn btn-primary fa fa-trash"
-            type="submit"
-          ></button>
-        </form>
+        {editFacilityId === facility._id ? (
+          <form
+            action={`/api/updateFacility/${editFacilityId}?_method=PUT`}
+            encType="multipart/form-data"
+            method="POST"
+            onSubmit={(event) => updateFacility(event, facility._id)}
+          >
+            <input
+              type="text"
+              name="editFacilityName"
+              value={editFacilityName !== null ? editFacilityName : ""}
+              onChange={(e) => setEditFacilityName(e.target.value)}
+            />
+            <input
+              type="text"
+              name="editFacilityAddress"
+              value={editFacilityAddress !== null ? editFacilityAddress : ""}
+              onChange={(e) => setEditFacilityAddress(e.target.value)}
+            />
+            <button type="submit">Update Facility</button>
+            <button type="button" onClick={() => handleCancelUpdate()}>
+              Cancel
+            </button>
+          </form>
+        ) : (
+          <>
+            <h2>{facility.name}</h2>
+            <h2>{facility.address}</h2>
+            <div>{employeeElements}</div>
+            <button
+              onClick={() =>
+                handleEdit(facility._id, facility.name, facility.address)
+              }
+            >
+              Edit Facility
+            </button>
+            <form
+              action={`/api/deleteFacility/${facility._id}?_method=DELETE`}
+              method="POST"
+              className="col-3"
+              onSubmit={(event) =>
+                deleteFacility(event, facility._id, facility.name)
+              }
+            >
+              <button
+                className="btn btn-primary fa fa-trash"
+                type="submit"
+              ></button>
+            </form>
+          </>
+        )}
       </div>
     );
   });
@@ -136,6 +276,7 @@ const Facilities = () => {
               name="facilityName"
               value={newFacilityName}
               onChange={(e) => setNewFacilityName(e.target.value)}
+              required
             />
           </label>
           <label>
@@ -145,6 +286,7 @@ const Facilities = () => {
               name="facilityAddress"
               value={newFacilityAddress}
               onChange={(e) => setNewFacilityAddress(e.target.value)}
+              required
             />
           </label>
           <button type="submit">Submit</button>

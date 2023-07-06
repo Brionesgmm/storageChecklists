@@ -174,3 +174,28 @@ exports.deleteFacility = async (req, res) => {
       .json({ error: "An error occurred while deleting the facility" });
   }
 };
+
+exports.updateFacility = async (req, res) => {
+  try {
+    const updatedData = {
+      name: req.body.name,
+      address: req.body.address,
+    };
+
+    const updatedFacility = await Facility.findByIdAndUpdate(
+      req.params.id,
+      { $set: updatedData },
+      { new: true }
+    );
+
+    if (updatedFacility) {
+      res.json(updatedFacility);
+    } else {
+      res.status(404).json({ error: "Facility not found" });
+    }
+    console.log("Facility updated");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+};
