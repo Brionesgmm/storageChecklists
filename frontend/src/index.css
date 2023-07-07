@@ -181,6 +181,11 @@
   margin: 1rem;
 }
 
+.employeeSection {
+  border: 1px red solid;
+  margin: 1rem;
+}
+
 @media screen and (max-width: 325px) {
   .tabBtns button {
     width: 100%; /* This will make the button take full width on smaller screens */
