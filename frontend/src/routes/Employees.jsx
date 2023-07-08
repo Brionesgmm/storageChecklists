@@ -41,7 +41,11 @@ const Facilities = () => {
       for (let response of responses) {
         const data = await response.json();
         console.log(data);
-        newEmployeeNames[data._id] = data.userName;
+        newEmployeeNames[data._id] = {
+          userName: data.userName,
+          isAdmin: data.isAdmin,
+        };
+        console.log(newEmployeeNames[data._id].userName);
       }
 
       setEmployeeNames(newEmployeeNames);
@@ -52,35 +56,6 @@ const Facilities = () => {
       fetchEmployeeNames();
     }
   }, [allFacilities]);
-
-  const addFacility = async (event) => {
-    event.preventDefault();
-
-    const response = await fetch("/api/createFacility", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: newFacilityName,
-        address: newFacilityAddress,
-        employees: [],
-      }),
-    });
-
-    if (!response.ok) {
-      // handle error
-      console.error("There was an error adding the facility");
-      return;
-    }
-
-    const { facility } = await response.json();
-
-    setAllFacilities([...allFacilities, facility]);
-    setNewFacilityName("");
-    setNewFacilityAddress("");
-    setShowForm(false);
-  };
 
   const deleteFacility = async (event, facilityId, facilityName) => {
     event.preventDefault();
@@ -208,34 +183,44 @@ const Facilities = () => {
   const facilitiesElement = allFacilities.map((facility) => {
     const employeeElements =
       facility.employees && facility.employees.length > 0 ? (
-        facility.employees.map((employeeId) => (
-          <div key={employeeId} className="employeeSection">
-            <h3>{employeeNames[employeeId]}</h3>
-            <button
-              onClick={() =>
-                handleEdit(facility._id, facility.name, facility.address)
-              }
-            >
-              Edit Employee
-            </button>
-            <form
-              action={`/api/deleteFacility/${facility._id}?_method=DELETE`}
-              method="POST"
-              className="col-3"
-              onSubmit={(event) =>
-                deleteFacility(event, facility._id, facility.name)
-              }
-            >
-              <button
-                className="btn btn-primary fa fa-trash"
-                type="submit"
-              ></button>
-            </form>
-          </div>
-        ))
+        facility.employees.map((employeeId) => {
+          const employee = employeeNames[employeeId];
+          if (employee) {
+            // check if the employee data is available
+            return (
+              <div key={employeeId} className="employeeSection">
+                <h3>{employee.userName}</h3> {/* Display userName */}
+                <h3>Is Admin: {employee.isAdmin ? "Yes" : "No"}</h3>{" "}
+                {/* Display isAdmin */}
+                <h3>{employeeId}</h3>
+                <button
+                  onClick={() =>
+                    handleEdit(facility._id, facility.name, facility.address)
+                  }
+                >
+                  Edit Employee
+                </button>
+                <form
+                  action={`/api/deleteFacility/${facility._id}?_method=DELETE`}
+                  method="POST"
+                  className="col-3"
+                  onSubmit={(event) =>
+                    deleteFacility(event, facility._id, facility.name)
+                  }
+                >
+                  <button
+                    className="btn btn-primary fa fa-trash"
+                    type="submit"
+                  ></button>
+                </form>
+              </div>
+            );
+          }
+        })
       ) : (
         <h3>No employees</h3>
       );
+
     console.log(facility._id);
     return (
       <div className="facility" key={facility._id}>
