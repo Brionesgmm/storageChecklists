@@ -22,5 +22,6 @@ router.put("/updateFacility/:id", authController.updateFacility);
 // Employees
 router.get("/formUserInfo/:id", authController.getFormUserInfo);
 router.put("/updateEmployee/:id", authController.updateEmployee);
+router.delete("/deleteEmployee/:id", authController.deleteEmployee);
 
 module.exports = router;

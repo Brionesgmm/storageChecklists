@@ -77,11 +77,12 @@ const Facilities = () => {
     }
   }, [allFacilities]);
 
-  const deleteEmployee = async (event, employeeId, employeeName) => {
+  // Delete An Employee
+  const deleteEmployee = async (event, employeeId, facilityId) => {
     event.preventDefault();
 
     const confirmed = window.confirm(
-      `Are you sure you want to delete ${employeeName}?`
+      `Are you sure you want to delete ${employeeNames[employeeId]?.userName}?`
     );
     if (!confirmed) {
       return; // Abort if the user cancels the deletion
@@ -92,15 +93,33 @@ const Facilities = () => {
       method: form.method,
     });
     if (response.ok) {
-      setAllEmployees(
-        allEmployees.filter((employee) => employee._id !== employeeId)
+      setAllFacilities((prevFacilities) =>
+        prevFacilities.map((facility) => {
+          if (facility._id === facilityId) {
+            return {
+              ...facility,
+              employees: facility.employees.filter(
+                (employeeIdInFacility) => employeeIdInFacility !== employeeId
+              ),
+            };
+          } else {
+            return facility;
+          }
+        })
       );
+      setEmployeeUpdate(true);
     } else {
       console.error("There was an error deleting the employee");
     }
   };
 
-  const handleEdit = (employeeId, employeeName, isEmployeeAdmin) => {
+  // Edit Employee Info
+  const handleEdit = (
+    employeeId,
+    employeeName,
+    isEmployeeAdmin,
+    facilityId
+  ) => {
     if (
       editEmployeeId !== null &&
       (editEmployeeName !== initialEmployeeName ||
@@ -113,11 +132,12 @@ const Facilities = () => {
         setInitialValues();
       }
     } else if (editEmployeeId !== employeeId) {
-      setEditEmployeeId(employeeId); // fixed here
+      setEditEmployeeId(employeeId);
       setEditEmployeeName(employeeName);
       setEditIsAdmin(isEmployeeAdmin);
       setInitialEmployeeName(employeeName);
       setInitialIsAdmin(isEmployeeAdmin);
+      setEditFacilityId(facilityId);
     }
   };
 
@@ -161,6 +181,7 @@ const Facilities = () => {
     setEditEmployeeId(null);
     setEditEmployeeName(initialEmployeeName);
     setEditIsAdmin(initialIsAdmin);
+    setEditFacilityId(null);
     setInitialEmployeeName("");
     setInitialIsAdmin("");
   };
@@ -263,18 +284,19 @@ const Facilities = () => {
                         handleEdit(
                           employeeId,
                           employee.userName,
-                          employee.isAdmin
+                          employee.isAdmin,
+                          facility._id
                         )
                       }
                     >
                       Edit Employee
                     </button>
                     <form
-                      action={`/api/deleteFacility/${employeeId}?_method=DELETE`}
+                      action={`/api/deleteEmployee/${employeeId}?_method=DELETE`}
                       method="POST"
                       className="col-3"
                       onSubmit={(event) =>
-                        deleteFacility(event, employeeId, facility.name)
+                        deleteEmployee(event, employeeId, facility.name)
                       }
                     >
                       <button

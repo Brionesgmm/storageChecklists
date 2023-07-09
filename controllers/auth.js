@@ -167,10 +167,18 @@ exports.updateEmployee = async (req, res) => {
       updatedData.property &&
       mongoose.Types.ObjectId.isValid(updatedData.property)
     ) {
-      await Facility.updateOne(
-        { _id: updatedData.property },
-        { $push: { employees: req.params.id } }
-      );
+      // Fetch the Facility
+      let facilityToUpdate = await Facility.findById(updatedData.property);
+      if (facilityToUpdate) {
+        // Check if the user is already in the employees array
+        if (!facilityToUpdate.employees.includes(req.params.id)) {
+          // If not, add them
+          await Facility.updateOne(
+            { _id: updatedData.property },
+            { $push: { employees: req.params.id } }
+          );
+        }
+      }
       newFacility = await Facility.findById(updatedData.property);
     }
 
@@ -184,6 +192,39 @@ exports.updateEmployee = async (req, res) => {
     }
 
     console.log("User updated");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+};
+
+exports.deleteEmployee = async (req, res) => {
+  try {
+    const employeeToDelete = await User.findById(req.params.id);
+
+    if (!employeeToDelete) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    let facilityId = employeeToDelete.property;
+
+    if (facilityId && mongoose.Types.ObjectId.isValid(facilityId)) {
+      await Facility.updateOne(
+        { _id: facilityId },
+        { $pull: { employees: req.params.id } }
+      );
+    }
+
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ error: "Failed to delete user" });
+    }
+
+    // Optionally, you can return the facility that the user was deleted from
+    const facility = await Facility.findById(facilityId);
+
+    res.json({ message: "User deleted", facility });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err });
