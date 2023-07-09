@@ -12,14 +12,15 @@ router.post("/login", authController.postLogin);
 router.get("/logout", authController.logout);
 router.post("/signup", authController.postSignup);
 
-// Get Facilities
+// Facilities
 router.get("/facilities", authController.getFacilities);
 router.get("/facilities/:id", authController.getFacilityName);
-
-// Get User info
-router.get("/formUserInfo/:id", authController.getFormUserInfo);
 router.post("/createFacility", authController.createFacility);
 router.delete("/deleteFacility/:id", authController.deleteFacility);
 router.put("/updateFacility/:id", authController.updateFacility);
+
+// Employees
+router.get("/formUserInfo/:id", authController.getFormUserInfo);
+router.put("/updateEmployee/:id", authController.updateEmployee);
 
 module.exports = router;

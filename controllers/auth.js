@@ -2,6 +2,7 @@ const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
 const Facility = require("../models/Facility"); // import Facility model at the top of your file
+const mongoose = require("mongoose");
 
 exports.getUser = (req, res) => {
   res.json({ user: req.user || null });
@@ -124,6 +125,68 @@ exports.getFormUserInfo = async (req, res, next) => {
     res.json(user);
   } catch (err) {
     next(err);
+  }
+};
+exports.updateEmployee = async (req, res) => {
+  try {
+    const updatedData = {
+      userName: req.body.name,
+      isAdmin: req.body.isAdmin,
+      property: req.body.facilityId,
+    };
+
+    const oldUser = await User.findById(req.params.id);
+
+    if (!oldUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    let oldFacilityId = oldUser.property;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: updatedData },
+      { new: true }
+    );
+
+    let oldFacility, newFacility;
+
+    if (
+      oldFacilityId &&
+      mongoose.Types.ObjectId.isValid(oldFacilityId) &&
+      oldFacilityId.toString() !== updatedData.property
+    ) {
+      await Facility.updateOne(
+        { _id: oldFacilityId },
+        { $pull: { employees: req.params.id } }
+      );
+      oldFacility = await Facility.findById(oldFacilityId);
+    }
+
+    if (
+      updatedData.property &&
+      mongoose.Types.ObjectId.isValid(updatedData.property)
+    ) {
+      await Facility.updateOne(
+        { _id: updatedData.property },
+        { $push: { employees: req.params.id } }
+      );
+      newFacility = await Facility.findById(updatedData.property);
+    }
+
+    if (updatedUser) {
+      res.json({
+        updatedUser,
+        facilities: [oldFacility, newFacility].filter(Boolean), // To exclude null if any
+      });
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+
+    console.log("User updated");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
   }
 };
 

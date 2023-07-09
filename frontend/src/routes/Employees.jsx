@@ -3,14 +3,15 @@ import { React, useState, useEffect } from "react";
 const Facilities = () => {
   const [allFacilities, setAllFacilities] = useState([]);
   const [employeeNames, setEmployeeNames] = useState({});
-  const [newFacilityName, setNewFacilityName] = useState("");
-  const [newFacilityAddress, setNewFacilityAddress] = useState("");
+  const [editEmployeeId, setEditEmployeeId] = useState(null);
+  const [editEmployeeName, setEditEmployeeName] = useState("");
+  const [editIsAdmin, setEditIsAdmin] = useState(false);
+  const [editFacilityId, setEditFacilityId] = useState("");
+  const [initialEmployeeName, setInitialEmployeeName] = useState("");
+  const [initialIsAdmin, setInitialIsAdmin] = useState(false);
+  const [initialFacilityId, setInitialFacilityId] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [editFacilityId, setEditFacilityId] = useState(null);
-  const [editFacilityName, setEditFacilityName] = useState("");
-  const [editFacilityAddress, setEditFacilityAddress] = useState("");
-  const [initialFacilityName, setInitialFacilityName] = useState("");
-  const [initialFacilityAddress, setInitialFacilityAddress] = useState("");
+  const [employeeUpdate, setEmployeeUpdate] = useState(false);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -18,10 +19,11 @@ const Facilities = () => {
       const data = await response.json();
       console.log(data);
       setAllFacilities(data);
+      setEmployeeUpdate(false);
     };
 
     fetchProperties();
-  }, []);
+  }, [employeeUpdate]);
 
   useEffect(() => {
     const fetchEmployeeNames = async () => {
@@ -39,8 +41,26 @@ const Facilities = () => {
       const responses = await Promise.all(promises);
 
       for (let response of responses) {
+        if (!response.ok) {
+          console.error(`Error with status ${response.status}`);
+          continue;
+        }
+
         const data = await response.json();
-        console.log(data);
+
+        if (
+          !data._id ||
+          !data.hasOwnProperty("userName") ||
+          !data.hasOwnProperty("isAdmin")
+        ) {
+          console.error(
+            `Malformed data for id ${data._id || "unknown"}: ${JSON.stringify(
+              data
+            )}`
+          );
+          continue;
+        }
+
         newEmployeeNames[data._id] = {
           userName: data.userName,
           isAdmin: data.isAdmin,
@@ -57,11 +77,11 @@ const Facilities = () => {
     }
   }, [allFacilities]);
 
-  const deleteFacility = async (event, facilityId, facilityName) => {
+  const deleteEmployee = async (event, employeeId, employeeName) => {
     event.preventDefault();
 
     const confirmed = window.confirm(
-      `Are you sure you want to delete ${facilityName}?`
+      `Are you sure you want to delete ${employeeName}?`
     );
     if (!confirmed) {
       return; // Abort if the user cancels the deletion
@@ -72,32 +92,32 @@ const Facilities = () => {
       method: form.method,
     });
     if (response.ok) {
-      setAllFacilities(
-        allFacilities.filter((facility) => facility._id !== facilityId)
+      setAllEmployees(
+        allEmployees.filter((employee) => employee._id !== employeeId)
       );
     } else {
-      console.error("There was an error deleting the facility");
+      console.error("There was an error deleting the employee");
     }
   };
 
-  const handleEdit = (facilityId, facilityName, facilityAddress) => {
+  const handleEdit = (employeeId, employeeName, isEmployeeAdmin) => {
     if (
-      editFacilityId !== null &&
-      (editFacilityName !== initialFacilityName ||
-        editFacilityAddress !== initialFacilityAddress)
+      editEmployeeId !== null &&
+      (editEmployeeName !== initialEmployeeName ||
+        editIsAdmin !== initialIsAdmin)
     ) {
       const confirmed = window.confirm(
-        `Are you sure you want to cancel updating ${editFacilityName}?`
+        `Are you sure you want to cancel updating ${editEmployeeName}?`
       );
       if (confirmed) {
         setInitialValues();
       }
-    } else if (editFacilityId !== facilityId) {
-      setEditFacilityId(facilityId);
-      setEditFacilityName(facilityName);
-      setEditFacilityAddress(facilityAddress);
-      setInitialFacilityName(facilityName);
-      setInitialFacilityAddress(facilityAddress);
+    } else if (editEmployeeId !== employeeId) {
+      setEditEmployeeId(employeeId); // fixed here
+      setEditEmployeeName(employeeName);
+      setEditIsAdmin(isEmployeeAdmin);
+      setInitialEmployeeName(employeeName);
+      setInitialIsAdmin(isEmployeeAdmin);
     }
   };
 
@@ -105,8 +125,8 @@ const Facilities = () => {
     const handleBeforeUnload = (event) => {
       if (
         editFacilityId !== null &&
-        (editFacilityName !== initialFacilityName ||
-          editFacilityAddress !== initialFacilityAddress)
+        (editEmployeeName !== initialEmployeeName ||
+          editIsAdmin !== initialIsAdmin)
       ) {
         event.preventDefault();
         event.returnValue = "";
@@ -118,16 +138,16 @@ const Facilities = () => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [editFacilityId, editFacilityName, editFacilityAddress]);
+  }, [editFacilityId, editEmployeeName, editIsAdmin]);
 
   const handleCancelUpdate = () => {
     if (
-      editFacilityId !== null &&
-      (editFacilityName !== initialFacilityName ||
-        editFacilityAddress !== initialFacilityAddress)
+      editEmployeeId !== null &&
+      (editEmployeeName !== initialEmployeeName ||
+        editIsAdmin !== initialIsAdmin)
     ) {
       const confirmed = window.confirm(
-        `Are you sure you want to cancel updating ${editFacilityName}?`
+        `Are you sure you want to cancel updating ${editEmployeeName}?`
       );
       if (confirmed) {
         setInitialValues();
@@ -138,14 +158,14 @@ const Facilities = () => {
   };
 
   const setInitialValues = () => {
-    setEditFacilityId(null);
-    setEditFacilityName("");
-    setEditFacilityAddress("");
-    setInitialFacilityName("");
-    setInitialFacilityAddress("");
+    setEditEmployeeId(null);
+    setEditEmployeeName(initialEmployeeName);
+    setEditIsAdmin(initialIsAdmin);
+    setInitialEmployeeName("");
+    setInitialIsAdmin("");
   };
 
-  const updateFacility = async (event, facilityId) => {
+  const updateEmployee = async (event, facilityId) => {
     event.preventDefault();
     const form = event.currentTarget;
 
@@ -155,28 +175,33 @@ const Facilities = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: editFacilityName,
-        address: editFacilityAddress,
+        name: editEmployeeName,
+        isAdmin: editIsAdmin,
+        facilityId: editFacilityId,
       }),
     });
 
     if (response.ok) {
+      const { updatedUser, facilities = [] } = await response.json();
       setAllFacilities((prevFacilities) =>
-        prevFacilities.map((facility) =>
-          facility._id === facilityId
-            ? {
-                ...facility,
-                name: editFacilityName,
-                address: editFacilityAddress,
-              }
-            : facility
-        )
+        prevFacilities.map((facility) => {
+          const updatedFacility = facilities.find(
+            ({ _id }) => _id === facility._id
+          );
+          if (updatedFacility) {
+            return updatedFacility;
+          } else {
+            return facility;
+          }
+        })
       );
-      setEditFacilityId(null);
-      setEditFacilityName("");
-      setEditFacilityAddress("");
+      setEditEmployeeId(null);
+      setEditEmployeeName("");
+      setEditIsAdmin("");
+      setEditFacilityId(""); // resetting the editFacilityId state after successful update
+      setEmployeeUpdate(true);
     } else {
-      console.error("There was an error updating the facility");
+      console.error("There was an error updating the employee");
     }
   };
 
@@ -186,33 +211,79 @@ const Facilities = () => {
         facility.employees.map((employeeId) => {
           const employee = employeeNames[employeeId];
           if (employee) {
-            // check if the employee data is available
             return (
               <div key={employeeId} className="employeeSection">
-                <h3>{employee.userName}</h3> {/* Display userName */}
-                <h3>Is Admin: {employee.isAdmin ? "Yes" : "No"}</h3>{" "}
-                {/* Display isAdmin */}
-                <h3>{employeeId}</h3>
-                <button
-                  onClick={() =>
-                    handleEdit(facility._id, facility.name, facility.address)
-                  }
-                >
-                  Edit Employee
-                </button>
-                <form
-                  action={`/api/deleteFacility/${facility._id}?_method=DELETE`}
-                  method="POST"
-                  className="col-3"
-                  onSubmit={(event) =>
-                    deleteFacility(event, facility._id, facility.name)
-                  }
-                >
-                  <button
-                    className="btn btn-primary fa fa-trash"
-                    type="submit"
-                  ></button>
-                </form>
+                {editEmployeeId === employeeId ? (
+                  <form
+                    action={`/api/updateEmployee/${editEmployeeId}?_method=PUT`}
+                    encType="multipart/form-data"
+                    method="POST"
+                    onSubmit={(event) => updateEmployee(event, employeeId)}
+                  >
+                    <input
+                      type="text"
+                      name="editEmployeeName"
+                      value={editEmployeeName}
+                      onChange={(e) => setEditEmployeeName(e.target.value)}
+                    />
+
+                    <select
+                      name="editIsAdmin"
+                      value={editIsAdmin}
+                      onChange={(e) => setEditIsAdmin(e.target.value)}
+                    >
+                      <option value="true">True</option>
+                      <option value="false">False</option>
+                    </select>
+
+                    <select
+                      name="editFacilityId"
+                      value={editFacilityId}
+                      onChange={(e) => setEditFacilityId(e.target.value)}
+                    >
+                      {allFacilities.map((facility) => (
+                        <option key={facility._id} value={facility._id}>
+                          {facility.name}
+                        </option>
+                      ))}
+                    </select>
+
+                    <button type="submit">Update Employee</button>
+                    <button type="button" onClick={handleCancelUpdate}>
+                      Cancel
+                    </button>
+                  </form>
+                ) : (
+                  <>
+                    <h3>{employee.userName}</h3>
+                    <h3>Is Admin: {employee.isAdmin ? "Yes" : "No"}</h3>{" "}
+                    <h3>{employeeId}</h3>
+                    <button
+                      onClick={() =>
+                        handleEdit(
+                          employeeId,
+                          employee.userName,
+                          employee.isAdmin
+                        )
+                      }
+                    >
+                      Edit Employee
+                    </button>
+                    <form
+                      action={`/api/deleteFacility/${employeeId}?_method=DELETE`}
+                      method="POST"
+                      className="col-3"
+                      onSubmit={(event) =>
+                        deleteFacility(event, employeeId, facility.name)
+                      }
+                    >
+                      <button
+                        className="btn btn-primary fa fa-trash"
+                        type="submit"
+                      ></button>
+                    </form>
+                  </>
+                )}
               </div>
             );
           }
@@ -223,37 +294,9 @@ const Facilities = () => {
 
     console.log(facility._id);
     return (
-      <div className="facility" key={facility._id}>
-        {editFacilityId === facility._id ? (
-          <form
-            action={`/api/updateFacility/${editFacilityId}?_method=PUT`}
-            encType="multipart/form-data"
-            method="POST"
-            onSubmit={(event) => updateFacility(event, facility._id)}
-          >
-            <input
-              type="text"
-              name="editFacilityName"
-              value={editFacilityName !== null ? editFacilityName : ""}
-              onChange={(e) => setEditFacilityName(e.target.value)}
-            />
-            <input
-              type="text"
-              name="editFacilityAddress"
-              value={editFacilityAddress !== null ? editFacilityAddress : ""}
-              onChange={(e) => setEditFacilityAddress(e.target.value)}
-            />
-            <button type="submit">Update Facility</button>
-            <button type="button" onClick={() => handleCancelUpdate()}>
-              Cancel
-            </button>
-          </form>
-        ) : (
-          <>
-            <h2>{facility.name}</h2>
-            <div>{employeeElements}</div>
-          </>
-        )}
+      <div key={facility._id} className="facility">
+        <h2>{facility.name}</h2>
+        <div>{employeeElements}</div>
       </div>
     );
   });
