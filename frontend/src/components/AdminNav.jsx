@@ -4,7 +4,16 @@ import { Link, Outlet, useOutletContext, useLocation } from "react-router-dom";
 const AdminNav = () => {
   const { user, setMessages } = useOutletContext();
   const location = useLocation();
+  console.log(user);
 
+  if (!user) {
+    return <h1>Loading...</h1>;
+  }
+
+  // If the user data has been fetched, but the user is not an admin
+  if (!user.isAdmin) {
+    return <h1>You don't have access to this page.</h1>;
+  }
   function activeStyle(path) {
     return location.pathname === path ? "active" : "";
   }

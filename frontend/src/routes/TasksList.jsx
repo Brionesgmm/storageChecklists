@@ -703,6 +703,9 @@ const TasksList = () => {
             Admin
           </Link>
         )}
+        <Link to="/pastTasks" className="col-3 btn btn-primary">
+          {facilityName}'s Past Tasks
+        </Link>
         <h3>Employee: {user.userName}</h3>
         <h3>Property: {facilityName}</h3>
       </div>

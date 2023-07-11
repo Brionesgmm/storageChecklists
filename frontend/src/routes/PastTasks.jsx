@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { useOutletContext, Outlet } from "react-router-dom";
+import { useOutletContext, Link, Outlet } from "react-router-dom";
 import DailyTasks from "../components/DailyTasks";
 import Notes from "../components/Notes";
 import PettyCash from "../components/PettyCash";
@@ -43,9 +43,11 @@ const PastTasks = () => {
   console.log(isUserAdmin);
   console.log(user);
 
-  // if (!isUserAdmin) {
-  //   return <h1>You don't have access to this page.</h1>;
-  // }
+  useEffect(() => {
+    if (user && !user.isAdmin) {
+      setSelectedProperty(user.property);
+    }
+  }, [user]);
 
   // get list of facilities
   useEffect(() => {
@@ -84,6 +86,7 @@ const PastTasks = () => {
 
   async function getTaskData() {
     console.log(selectedDate);
+    console.log(selectedProperty);
     const url = `/api/task/facilityTask?facilityId=${selectedProperty}&date=${selectedDate}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -151,22 +154,47 @@ const PastTasks = () => {
   return (
     <>
       <div className="mb-3">
+        <Link to="/profile" className="col-3 btn btn-primary">
+          Profile
+        </Link>
         <label htmlFor="property" className="form-label">
           Property
         </label>
-        <select
-          className="form-select"
-          id="property"
-          name="property"
-          onChange={(e) => setSelectedProperty(e.target.value)}
-        >
-          <option value="">Select a property</option>
-          {properties.map((property) => (
-            <option value={property._id} key={property._id}>
-              {property.name}
-            </option>
-          ))}
-        </select>
+        {user && user.isAdmin ? (
+          <select
+            value={selectedProperty}
+            className="form-select"
+            id="property"
+            name="property"
+            onChange={(e) => setSelectedProperty(e.target.value)}
+          >
+            <option value="">Select a property</option>
+            {properties.map((property) => (
+              <option value={property._id} key={property._id}>
+                {property.name}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <select
+            className="form-select"
+            id="property"
+            name="property"
+            onChange={(e) => setSelectedProperty(e.target.value)}
+          >
+            {properties.length > 0 && (
+              <option value={user ? user.property : ""}>
+                {
+                  (
+                    properties.find(
+                      (property) => property._id === (user ? user.property : "")
+                    ) || {}
+                  ).name
+                }
+              </option>
+            )}
+          </select>
+        )}
       </div>
       <div className="mb-3">
         <label htmlFor="date" className="form-label">
@@ -263,7 +291,6 @@ const PastTasks = () => {
           }
         </div>
       )}
-      {!isUserAdmin && <h1>You don't have access to this page.</h1>}
     </>
   );
 };

@@ -46,6 +46,10 @@ const router = createBrowserRouter([
         element: <TasksList />,
       },
       {
+        path: "/pastTasks",
+        element: <PastTasks />,
+      },
+      {
         path: "/feed",
         element: <Feed />,
       },
