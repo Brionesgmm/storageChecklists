@@ -9,6 +9,7 @@ const Facilities = () => {
   const [editFacilityId, setEditFacilityId] = useState(null);
   const [editFacilityName, setEditFacilityName] = useState("");
   const [editFacilityAddress, setEditFacilityAddress] = useState("");
+  const [editFacilityGivenCash, setEditFacilityGivenCash] = useState("");
   const [initialFacilityName, setInitialFacilityName] = useState("");
   const [initialFacilityAddress, setInitialFacilityAddress] = useState("");
 
@@ -97,7 +98,12 @@ const Facilities = () => {
     }
   };
 
-  const handleEdit = (facilityId, facilityName, facilityAddress) => {
+  const handleEdit = (
+    facilityId,
+    facilityName,
+    facilityAddress,
+    facilityGivenCash
+  ) => {
     if (
       editFacilityId !== null &&
       (editFacilityName !== initialFacilityName ||
@@ -115,6 +121,7 @@ const Facilities = () => {
       setEditFacilityAddress(facilityAddress);
       setInitialFacilityName(facilityName);
       setInitialFacilityAddress(facilityAddress);
+      setEditFacilityGivenCash(facilityGivenCash);
     }
   };
 
@@ -162,6 +169,7 @@ const Facilities = () => {
     setInitialFacilityAddress("");
   };
 
+  // Update Facility Info
   const updateFacility = async (event, facilityId) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -174,6 +182,7 @@ const Facilities = () => {
       body: JSON.stringify({
         name: editFacilityName,
         address: editFacilityAddress,
+        givenCash: editFacilityGivenCash,
       }),
     });
 
@@ -185,6 +194,7 @@ const Facilities = () => {
                 ...facility,
                 name: editFacilityName,
                 address: editFacilityAddress,
+                givenCash: editFacilityGivenCash,
               }
             : facility
         )
@@ -192,6 +202,7 @@ const Facilities = () => {
       setEditFacilityId(null);
       setEditFacilityName("");
       setEditFacilityAddress("");
+      setEditFacilityGivenCash("");
     } else {
       console.error("There was an error updating the facility");
     }
@@ -228,6 +239,14 @@ const Facilities = () => {
               value={editFacilityAddress !== null ? editFacilityAddress : ""}
               onChange={(e) => setEditFacilityAddress(e.target.value)}
             />
+            <input
+              type="number"
+              name="editFacilityGivenCash"
+              value={
+                editFacilityGivenCash !== null ? editFacilityGivenCash : ""
+              }
+              onChange={(e) => setEditFacilityGivenCash(e.target.value)}
+            />
             <button type="submit">Update Facility</button>
             <button type="button" onClick={() => handleCancelUpdate()}>
               Cancel
@@ -237,10 +256,16 @@ const Facilities = () => {
           <>
             <h2>{facility.name}</h2>
             <h2>{facility.address}</h2>
+            <h2>Given Petty Cash: {facility.givenCash}</h2>
             <div>{employeeElements}</div>
             <button
               onClick={() =>
-                handleEdit(facility._id, facility.name, facility.address)
+                handleEdit(
+                  facility._id,
+                  facility.name,
+                  facility.address,
+                  facility.givenCash
+                )
               }
             >
               Edit Facility

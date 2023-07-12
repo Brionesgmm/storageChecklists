@@ -187,7 +187,7 @@ const TasksList = () => {
   const [totalPettyCash, setTotalPettyCash] = useState(
     JSON.parse(localStorage.getItem("totalPettyCash")) || ""
   );
-  const [givenCash, setGivenCash] = useState(300);
+  const [givenCash, setGivenCash] = useState(0);
   const [facilityName, setFacilityName] = useState(null);
   const [lastVisit, setLastVisit] = useState(
     localStorage.getItem("lastVisit") || "1970-01-01"
@@ -217,6 +217,7 @@ const TasksList = () => {
       }
       const data = await response.json();
       setFacilityName(data.name);
+      setGivenCash(data.givenCash);
     } catch (error) {
       console.error("Error:", error);
     }

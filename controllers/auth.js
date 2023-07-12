@@ -246,7 +246,7 @@ exports.getFacilityName = async (req, res, next) => {
     if (!facility) {
       return res.status(404).json({ message: "Facility not found" });
     }
-    res.json({ name: facility.name });
+    res.json(facility);
   } catch (err) {
     next(err);
   }
@@ -284,8 +284,9 @@ exports.updateFacility = async (req, res) => {
     const updatedData = {
       name: req.body.name,
       address: req.body.address,
+      givenCash: req.body.givenCash,
     };
-
+    console.log(req.body.givenCash);
     const updatedFacility = await Facility.findByIdAndUpdate(
       req.params.id,
       { $set: updatedData },

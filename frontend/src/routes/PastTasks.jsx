@@ -138,6 +138,9 @@ const PastTasks = () => {
       setTotalPettyCash(
         findValue(data.pettyCash.cashAmounts, "amount", "totalPettyCash")
       );
+      setGivenCash(
+        findValue(data.pettyCash.cashAmounts, "amount", "givenCash")
+      );
       setTaskFillerId(data.user);
       console.log(taskFillerId);
       setErrorMessage("");

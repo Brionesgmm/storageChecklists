@@ -9,6 +9,10 @@ const FacilitySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  givenCash: {
+    type: Number,
+    default: 0,
+  },
   employees: [
     {
       type: mongoose.Schema.Types.ObjectId,
