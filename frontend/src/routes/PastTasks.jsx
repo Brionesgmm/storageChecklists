@@ -131,6 +131,9 @@ const PastTasks = () => {
       setCurrentTotal(
         findValue(data.pettyCash.cashAmounts, "amount", "currentTotal")
       );
+      console.log(
+        findValue(data.pettyCash.cashAmounts, "amount", "currentTotal")
+      );
       setReceipts(findValue(data.pettyCash.cashAmounts, "amount", "receipts"));
       setTotalPettyCash(
         findValue(data.pettyCash.cashAmounts, "amount", "totalPettyCash")

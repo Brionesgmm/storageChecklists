@@ -52,18 +52,39 @@ const PettyCash = ({
       setCurrentTotal(Number(value));
     }
   };
+
   useEffect(() => {
-    const newCurrentTotal =
-      pennies * 0.01 +
-      nickels * 0.05 +
-      dimes * 0.1 +
-      quarters * 0.25 +
-      ones * 1 +
-      fives * 5 +
-      tens * 10 +
-      twenties * 20 +
-      fifties * 50 +
-      hundreds * 100;
+    let newCurrentTotal;
+
+    // Check if denominations exist in the database
+    if (
+      pennies !== null &&
+      nickels !== null &&
+      dimes !== null &&
+      quarters !== null &&
+      ones !== null &&
+      fives !== null &&
+      tens !== null &&
+      twenties !== null &&
+      fifties !== null &&
+      hundreds !== null
+    ) {
+      // Calculate total from denominations
+      newCurrentTotal =
+        pennies * 0.01 +
+        nickels * 0.05 +
+        dimes * 0.1 +
+        quarters * 0.25 +
+        ones * 1 +
+        fives * 5 +
+        tens * 10 +
+        twenties * 20 +
+        fifties * 50 +
+        hundreds * 100;
+    } else {
+      // Use currentTotal from the database
+      newCurrentTotal = currentTotal;
+    }
 
     const denominationsChanged =
       pennies !== prevDenominations.pennies ||
