@@ -739,6 +739,9 @@ const TasksList = () => {
         <button className="btn submitBtn" type="submit">
           Submit
         </button>
+        {isDataSubmitted && (
+          <h2 className="submittedDataMsg">Task data submitted!</h2>
+        )}
         {isActive.tasksActive && (
           <DailyTasks
             tasks={tasks}
