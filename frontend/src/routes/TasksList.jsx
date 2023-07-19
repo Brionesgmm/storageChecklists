@@ -193,6 +193,7 @@ const TasksList = () => {
     localStorage.getItem("lastVisit") || "1970-01-01"
   );
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
   const facilityId = user ? user.property : null;
   console.log(facilityId);
@@ -516,51 +517,6 @@ const TasksList = () => {
     givenCash,
   ]);
 
-  // useEffect(() => {
-  //   // getFacilityName();
-  //   // console.log(facilityName);
-  //   localStorage.setItem("tasks", JSON.stringify(tasks));
-  //   localStorage.setItem("overlocks", JSON.stringify(overlocks));
-  //   localStorage.setItem("reverseOverlocks", JSON.stringify(reverseOverlocks));
-  //   localStorage.setItem("cleans", JSON.stringify(cleans));
-  //   localStorage.setItem("toDoList", JSON.stringify(toDoList));
-  //   localStorage.setItem("otherNotes", JSON.stringify(otherNotes));
-  //   localStorage.setItem("pennies", JSON.stringify(pennies));
-  //   localStorage.setItem("nickels", JSON.stringify(nickels));
-  //   localStorage.setItem("dimes", JSON.stringify(dimes));
-  //   localStorage.setItem("quarters", JSON.stringify(quarters));
-  //   localStorage.setItem("ones", JSON.stringify(ones));
-  //   localStorage.setItem("fives", JSON.stringify(fives));
-  //   localStorage.setItem("tens", JSON.stringify(tens));
-  //   localStorage.setItem("twenties", JSON.stringify(twenties));
-  //   localStorage.setItem("fifties", JSON.stringify(fifties));
-  //   localStorage.setItem("hundreds", JSON.stringify(hundreds));
-  //   localStorage.setItem("currentTotal", JSON.stringify(currentTotal));
-  //   localStorage.setItem("receipts", JSON.stringify(receipts));
-  //   localStorage.setItem("totalPettyCash", JSON.stringify(totalPettyCash));
-  //   localStorage.setItem("givenCash", JSON.stringify(givenCash));
-  // }, [
-  //   tasks,
-  //   overlocks,
-  //   reverseOverlocks,
-  //   cleans,
-  //   toDoList,
-  //   otherNotes,
-  //   pennies,
-  //   nickels,
-  //   dimes,
-  //   quarters,
-  //   ones,
-  //   fives,
-  //   tens,
-  //   twenties,
-  //   fifties,
-  //   hundreds,
-  //   currentTotal,
-  //   receipts,
-  //   totalPettyCash,
-  // ]);
-
   // Prompts user to save data if not submiited
   useEffect(() => {
     const beforeUnloadEvent = (event) => {
@@ -591,60 +547,9 @@ const TasksList = () => {
     return null;
   }
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const form = event.currentTarget;
-  //   const data = {
-  //     facilityId: user.property,
-  //     notes: {
-  //       overlock: overlocks,
-  //       reverseOverlock: reverseOverlocks,
-  //       clean: cleans,
-  //       toDoList: toDoList,
-  //       otherNotes: otherNotes,
-  //     },
-  //     dailyTasks: tasks,
-  //     pettyCash: {
-  //       denominations: [
-  //         { denomination: "pennies", value: pennies },
-  //         { denomination: "nickels", value: nickels },
-  //         { denomination: "dimes", value: dimes },
-  //         { denomination: "quarters", value: quarters },
-  //         { denomination: "ones", value: ones },
-  //         { denomination: "fives", value: fives },
-  //         { denomination: "tens", value: tens },
-  //         { denomination: "twenties", value: twenties },
-  //         { denomination: "fifties", value: fifties },
-  //         { denomination: "hundreds", value: hundreds },
-  //       ],
-  //       cashAmounts: [
-  //         { amount: "receipts", value: receipts },
-  //         { amount: "currentTotal", value: currentTotal },
-  //         { amount: "totalPettyCash", value: totalPettyCash },
-  //         { amount: "givenCash", value: givenCash },
-  //       ],
-  //     },
-  //     user: user._id, // assuming user object has an _id field
-  //   };
-
-  //   console.log(data);
-
-  //   const response = await fetch(form.action, {
-  //     method: form.method,
-  //     body: JSON.stringify(data),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   const json = await response.json();
-
-  //   if (json.messages) {
-  //     setMessages(json.messages);
-  //   }
-  // };
-
   async function handleUpdateTask(event) {
     event.preventDefault();
+    setIsLoadingSubmit(true);
     const form = event.currentTarget;
     const data = {
       facilityId: user.property,
@@ -693,6 +598,7 @@ const TasksList = () => {
     if (json.messages) {
       setMessages(json.messages);
     }
+    setIsLoadingSubmit(false);
     setIsDataSubmitted(true);
   }
 
@@ -739,6 +645,12 @@ const TasksList = () => {
         <button className="btn submitBtn" type="submit">
           Submit
         </button>
+        {isLoadingSubmit && (
+          <div className="loadingSubmitMsg">
+            <h2>Submitting data to database...</h2>
+            <div className="spinner" />
+          </div>
+        )}
         {isDataSubmitted && (
           <h2 className="submittedDataMsg">Task data submitted!</h2>
         )}

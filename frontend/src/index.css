@@ -186,6 +186,31 @@
   margin: 1rem;
 }
 
+.loadingSubmitMsg {
+  display: flex;
+  align-items: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  display: inline-block; /* This will allow the spinner to sit next to the text */
+  margin-left: 10px; /* This adds a bit of space between the spinner and the text */
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
 @media screen and (max-width: 325px) {
   .tabBtns button {
     width: 100%; /* This will make the button take full width on smaller screens */
