@@ -18,14 +18,16 @@ const FacilityNav = () => {
             Current Daily Tasks
           </button>
         </Link>
-        <Link to="/admin">
-          <button className={`btn tasksBtn ${activeStyle("/admin")}`}>
-            Admin Area
-          </button>
-        </Link>
-        <Link to="/admin/facilities">
+        {user.isAdmin && (
+          <Link to="/admin">
+            <button className={`btn tasksBtn ${activeStyle("/admin")}`}>
+              Admin Area
+            </button>
+          </Link>
+        )}
+        <Link to="/profile/pastTasks">
           <button
-            className={`btn notesBtn ${activeStyle("/admin/facilities")}`}
+            className={`btn notesBtn ${activeStyle("/profile/pastTasks")}`}
           >
             Past Daily Tasks
           </button>

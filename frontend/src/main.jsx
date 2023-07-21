@@ -55,6 +55,7 @@ const router = createBrowserRouter([
             path: "facilitysheet",
             element: <FacilitySheet />,
           },
+          { path: "pastTasks", element: <PastTasks /> },
         ],
       },
       {
