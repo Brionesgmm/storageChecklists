@@ -18,7 +18,7 @@ function Root() {
       <header className="container siteHeader">
         <div className="centerContainer">
           <h1>
-            <Link to={user ? "/profile" : "/"}>Matt's District Facilities</Link>
+            <Link to={user ? "/profile" : "/"}>Storage Facility Tracker</Link>
           </h1>
         </div>
         {user && (

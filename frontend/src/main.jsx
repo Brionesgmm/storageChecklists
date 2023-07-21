@@ -18,6 +18,8 @@ import PastTasks from "./routes/PastTasks";
 import Facilities from "./routes/Facilities";
 import AdminNav from "./components/AdminNav";
 import Employees from "./routes/Employees";
+import FacilityNav from "./components/FacilityNav";
+import FacilitySheet from "./routes/FacilitySheet";
 
 const router = createBrowserRouter([
   {
@@ -43,7 +45,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <TasksList />,
+        element: <FacilityNav />,
+        children: [
+          {
+            index: true,
+            element: <TasksList />,
+          },
+          {
+            path: "facilitysheet",
+            element: <FacilitySheet />,
+          },
+        ],
       },
       {
         path: "/pastTasks",
