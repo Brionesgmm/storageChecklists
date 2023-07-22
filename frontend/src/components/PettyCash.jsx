@@ -42,7 +42,7 @@ const PettyCash = ({
     fifties: fifties || "",
     hundreds: hundreds || "",
   });
-
+  console.log(currentTotal, "pettyCash");
   const handleCurrentTotalChange = (value) => {
     const allZeroDenominations = Object.values(prevDenominations).every(
       (denomination) => denomination === 0 || denomination === ""
@@ -54,36 +54,22 @@ const PettyCash = ({
   };
 
   useEffect(() => {
-    let newCurrentTotal;
+    // Calculate total from denominations, regardless of their values
+    let newCurrentTotal =
+      Number(pennies) * 0.01 +
+      Number(nickels) * 0.05 +
+      Number(dimes) * 0.1 +
+      Number(quarters) * 0.25 +
+      Number(ones) * 1 +
+      Number(fives) * 5 +
+      Number(tens) * 10 +
+      Number(twenties) * 20 +
+      Number(fifties) * 50 +
+      Number(hundreds) * 100;
 
-    // Check if denominations exist in the database
-    if (
-      pennies !== null &&
-      nickels !== null &&
-      dimes !== null &&
-      quarters !== null &&
-      ones !== null &&
-      fives !== null &&
-      tens !== null &&
-      twenties !== null &&
-      fifties !== null &&
-      hundreds !== null
-    ) {
-      // Calculate total from denominations
-      newCurrentTotal =
-        pennies * 0.01 +
-        nickels * 0.05 +
-        dimes * 0.1 +
-        quarters * 0.25 +
-        ones * 1 +
-        fives * 5 +
-        tens * 10 +
-        twenties * 20 +
-        fifties * 50 +
-        hundreds * 100;
-    } else {
-      // Use currentTotal from the database
-      newCurrentTotal = currentTotal;
+    // If the denominations total is 0, use currentTotal from the database
+    if (newCurrentTotal === 0) {
+      newCurrentTotal = Number(currentTotal);
     }
 
     const denominationsChanged =

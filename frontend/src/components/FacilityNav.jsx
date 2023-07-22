@@ -10,14 +10,13 @@ const FacilityNav = () => {
     return location.pathname === path ? "active" : "";
   }
 
+  if (!user) {
+    return null; // or render a loading state
+  }
+
   return (
     <div>
       <div className="tabBtns">
-        <Link to="/profile">
-          <button className={`btn tasksBtn ${activeStyle("/profile")}`}>
-            Current Daily Tasks
-          </button>
-        </Link>
         {user.isAdmin && (
           <Link to="/admin">
             <button className={`btn tasksBtn ${activeStyle("/admin")}`}>
@@ -25,6 +24,11 @@ const FacilityNav = () => {
             </button>
           </Link>
         )}
+        <Link to="/profile">
+          <button className={`btn tasksBtn ${activeStyle("/profile")}`}>
+            Current Daily Tasks
+          </button>
+        </Link>
         <Link to="/profile/pastTasks">
           <button
             className={`btn notesBtn ${activeStyle("/profile/pastTasks")}`}

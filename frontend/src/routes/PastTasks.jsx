@@ -131,9 +131,6 @@ const PastTasks = () => {
       setCurrentTotal(
         findValue(data.pettyCash.cashAmounts, "amount", "currentTotal")
       );
-      console.log(
-        findValue(data.pettyCash.cashAmounts, "amount", "currentTotal")
-      );
       setReceipts(findValue(data.pettyCash.cashAmounts, "amount", "receipts"));
       setTotalPettyCash(
         findValue(data.pettyCash.cashAmounts, "amount", "totalPettyCash")
@@ -160,9 +157,6 @@ const PastTasks = () => {
   return (
     <>
       <div className="mb-3">
-        {/* <Link to="/profile" className="col-3 btn btn-primary">
-          Profile
-        </Link> */}
         <label htmlFor="property" className="form-label">
           Property
         </label>
