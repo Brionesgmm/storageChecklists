@@ -160,9 +160,9 @@ const PastTasks = () => {
   return (
     <>
       <div className="mb-3">
-        <Link to="/profile" className="col-3 btn btn-primary">
+        {/* <Link to="/profile" className="col-3 btn btn-primary">
           Profile
-        </Link>
+        </Link> */}
         <label htmlFor="property" className="form-label">
           Property
         </label>

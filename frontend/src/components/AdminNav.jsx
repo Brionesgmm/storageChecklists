@@ -21,6 +21,11 @@ const AdminNav = () => {
   return (
     <div>
       <div className="tabBtns">
+        <Link to="/profile">
+          <button className={`btn tasksBtn ${activeStyle("/profile")}`}>
+            Facility Profile
+          </button>
+        </Link>
         <Link to="/admin">
           <button className={`btn tasksBtn ${activeStyle("/admin")}`}>
             Past Tasks
