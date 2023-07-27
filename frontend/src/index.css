@@ -14,10 +14,6 @@
   text-align: center;
 }
 
-.logout {
-  align-self: center;
-}
-
 .notesTab,
 .pettyCash,
 .tasksSection {
@@ -158,6 +154,16 @@
 
 .submitBtn:active {
   background-color: #126b00;
+}
+
+.logout {
+  align-self: center;
+  background-color: rgb(255, 10, 10);
+}
+
+.logout:hover,
+.logout:focus {
+  background-color: rgb(189, 0, 0);
 }
 
 .tabBtns {
