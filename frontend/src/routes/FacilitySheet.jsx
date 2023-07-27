@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import ContactsFS from "../components/ContactsFS";
 
 const FacilitySheet = () => {
-  const [activeTabs, setActiveTabs] = useState({
+  const [isActive, setIsActive] = useState({
     contacts: true,
     facilitySystems: false,
     utilityVendors: false,
@@ -42,6 +43,7 @@ const FacilitySheet = () => {
           Save Changes
         </button>
       </form>
+      <div>{isActive && <ContactsFS />}</div>
     </div>
   );
 };
