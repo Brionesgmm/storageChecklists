@@ -304,3 +304,20 @@ exports.updateFacility = async (req, res) => {
     res.status(500).json({ error: err });
   }
 };
+
+exports.getFacilityInfoSheet = async (req, res) => {
+  try {
+    const facilityInfoSheet = await FacilityInfoSheet.findOne({
+      facilityId: req.params.id,
+    });
+
+    if (facilityInfoSheet) {
+      res.json(facilityInfoSheet);
+    } else {
+      res.status(404).json({ error: "FacilityInfoSheet not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err });
+  }
+};
