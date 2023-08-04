@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const FacilityInfoSheet = new mongoose.Schema({
   facilityId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Facility",
     required: true,
   },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
