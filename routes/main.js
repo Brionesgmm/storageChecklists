@@ -18,7 +18,7 @@ router.get("/facilities/:id", authController.getFacilityName);
 router.post("/createFacility", authController.createFacility);
 router.delete("/deleteFacility/:id", authController.deleteFacility);
 router.put("/updateFacility/:id", authController.updateFacility);
-router.get("/facilityInfoSheet/id", authController.getFacilityInfoSheet);
+router.get("/facilityInfoSheet/:id", authController.getFacilityInfoSheet);
 
 // Employees
 router.get("/formUserInfo/:id", authController.getFormUserInfo);

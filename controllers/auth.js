@@ -2,6 +2,7 @@ const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
 const Facility = require("../models/Facility"); // import Facility model at the top of your file
+const FacilityInfoSheet = require("../models/FacilityInfoSheet");
 const mongoose = require("mongoose");
 
 exports.getUser = (req, res) => {
