@@ -11,7 +11,6 @@ const FacilityInfoSheet = new mongoose.Schema({
     siteManagers: [{ name: String, phone: String }],
     districtManagers: [{ name: String, phone: String }],
     teamLeads: [{ name: String, phone: String }],
-    siteManagers: [{ name: String, phone: String }],
     regionalManager: [{ name: String, phone: String }],
     corporateContacts: [{ name: String, phone: String }],
     emergencyContacts: [{ name: String, phone: String }],

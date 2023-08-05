@@ -68,25 +68,165 @@ const ContactsFS = () => {
   };
 
   const siteManagersElement = (
-    <div>
+    <div className="siteManagersSection">
       <h2>Site Managers</h2>
       {contacts.siteManagers.length === 0 ? (
         <div>No contacts</div>
       ) : (
-        contacts.siteManagers.map((smanager, index) => (
+        contacts.siteManagers.map((siteManager, index) => (
           <div key={index}>
             <input
               type="text"
-              value={smanager.name}
+              value={siteManager.name}
               onChange={(event) =>
                 handleChange("siteManagers", index, "name", event)
               }
             />
             <input
               type="text"
-              value={smanager.phone}
+              value={siteManager.phone}
               onChange={(event) =>
                 handleChange("siteManagers", index, "phone", event)
+              }
+            />
+          </div>
+        ))
+      )}
+    </div>
+  );
+
+  const districtManagersElement = (
+    <div className="districtManagersSection">
+      <h2>District Managers</h2>
+      {contacts.districtManagers.length === 0 ? (
+        <div>No contacts</div>
+      ) : (
+        contacts.districtManagers.map((distManager, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              value={distManager.name}
+              onChange={(event) =>
+                handleChange("districtManager", index, "name", event)
+              }
+            />
+            <input
+              type="text"
+              value={distManager.phone}
+              onChange={(event) =>
+                handleChange("districtManager", index, "phone", event)
+              }
+            />
+          </div>
+        ))
+      )}
+    </div>
+  );
+
+  const teamLeadsElement = (
+    <div className="teamLeadsSection">
+      <h2>Team Leads</h2>
+      {contacts.teamLeads.length === 0 ? (
+        <div>No contacts</div>
+      ) : (
+        contacts.teamLeads.map((teamLead, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              value={teamLead.name}
+              onChange={(event) =>
+                handleChange("teamLeads", index, "name", event)
+              }
+            />
+            <input
+              type="text"
+              value={teamLead.phone}
+              onChange={(event) =>
+                handleChange("teamLeads", index, "phone", event)
+              }
+            />
+          </div>
+        ))
+      )}
+    </div>
+  );
+
+  const regionalManagerElement = (
+    <div className="regionalManagerSection">
+      <h2>Regional Manager</h2>
+      {contacts.regionalManager.length === 0 ? (
+        <div>No contacts</div>
+      ) : (
+        contacts.regionalManager.map((regManager, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              value={regManager.name}
+              onChange={(event) =>
+                handleChange("regionalManager", index, "name", event)
+              }
+            />
+            <input
+              type="text"
+              value={regManager.phone}
+              onChange={(event) =>
+                handleChange("regionalManager", index, "phone", event)
+              }
+            />
+          </div>
+        ))
+      )}
+    </div>
+  );
+
+  const corporateContactsElement = (
+    <div className="corporateContactsSection">
+      <h2>Corporate Contacts</h2>
+      {contacts.corporateContacts.length === 0 ? (
+        <div>No contacts</div>
+      ) : (
+        contacts.corporateContacts.map((corporateContact, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              value={corporateContact.name}
+              onChange={(event) =>
+                handleChange("corporateContacts", index, "name", event)
+              }
+            />
+            <input
+              type="text"
+              value={corporateContact.phone}
+              onChange={(event) =>
+                handleChange("corporateContacts", index, "phone", event)
+              }
+            />
+          </div>
+        ))
+      )}
+    </div>
+  );
+
+  const emergencyContactsElement = (
+    <div className="emergencyContactsSection">
+      <h2>Emergency Contacts</h2>
+      {contacts.emergencyContacts.length === 0 ? (
+        <div>No contacts</div>
+      ) : (
+        contacts.emergencyContacts.map((emergencyContact, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              value={emergencyContact.name}
+              onChange={(event) =>
+                handleChange("emergencyContacts", index, "name", event)
+              }
+            />
+            <input
+              type="text"
+              value={emergencyContact.phone}
+              onChange={(event) =>
+                handleChange("emergencyContacts", index, "phone", event)
               }
             />
           </div>
@@ -119,7 +259,16 @@ const ContactsFS = () => {
   //   </div>
   // ));
 
-  return <div>{siteManagersElement}</div>;
+  return (
+    <div>
+      {siteManagersElement}
+      {districtManagersElement}
+      {teamLeadsElement}
+      {regionalManagerElement}
+      {corporateContactsElement}
+      {emergencyContactsElement}
+    </div>
+  );
 };
 
 export default ContactsFS;
