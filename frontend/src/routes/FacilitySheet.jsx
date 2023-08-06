@@ -3,16 +3,18 @@ import ContactsFS from "../components/ContactsFS";
 
 const FacilitySheet = () => {
   const [isActive, setIsActive] = useState({
-    contacts: true,
-    facilitySystems: false,
-    utilityVendors: false,
+    contactsActive: true,
+    utilityVendorsActive: false,
+    facilitySystemsActive: false,
   });
+  const [isDataSubmitted, setIsDataSubmitted] = useState(false);
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
   function changeTab(key) {
     setIsActive({
-      tasksActive: key === "contacts",
-      notesActive: key === "facilitySystems",
-      pettyActive: key === "utilityVendors",
+      contactsActive: key === "contacts",
+      utilityVendorsActive: key === "utilityVendors",
+      facilitySystemsActive: key === "facilitySystems",
     });
   }
 
@@ -43,7 +45,7 @@ const FacilitySheet = () => {
           Save Changes
         </button>
       </form>
-      <div>{isActive && <ContactsFS />}</div>
+      <div>{isActive.contactsActive && <ContactsFS />}</div>
     </div>
   );
 };

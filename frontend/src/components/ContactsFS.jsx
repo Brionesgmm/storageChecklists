@@ -29,6 +29,7 @@ const ContactsFS = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+      setContacts(data.contacts);
       console.log(data);
     } catch (error) {
       console.error("Error:", error);
@@ -67,6 +68,22 @@ const ContactsFS = () => {
     });
   };
 
+  const addNewContact = (type) => {
+    setContacts((prevContacts) => {
+      const newContacts = { ...prevContacts };
+
+      // Get the last contact in the array for the given type
+      const lastContact = newContacts[type][newContacts[type].length - 1];
+
+      // Only add a new contact if the last one isn't empty
+      if (!lastContact || lastContact.name || lastContact.phone) {
+        newContacts[type].push({ name: "", phone: "" });
+      }
+
+      return newContacts;
+    });
+  };
+
   const siteManagersElement = (
     <div className="siteManagersSection">
       <h2>Site Managers</h2>
@@ -81,6 +98,7 @@ const ContactsFS = () => {
               onChange={(event) =>
                 handleChange("siteManagers", index, "name", event)
               }
+              placeholder="Name"
             />
             <input
               type="text"
@@ -88,10 +106,14 @@ const ContactsFS = () => {
               onChange={(event) =>
                 handleChange("siteManagers", index, "phone", event)
               }
+              placeholder="Phone Number"
             />
           </div>
         ))
       )}
+      <button onClick={() => addNewContact("siteManagers")}>
+        Add New Contact
+      </button>
     </div>
   );
 
