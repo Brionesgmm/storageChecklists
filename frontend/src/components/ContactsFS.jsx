@@ -1,59 +1,8 @@
 import { React, useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
 
-const ContactsFS = () => {
-  const [contacts, setContacts] = useState({
-    siteManagers: [],
-    districtManagers: [],
-    teamLeads: [],
-    regionalManager: [],
-    corporateContacts: [],
-    emergencyContacts: [],
-  });
-  const [utilityVendors, setutilityVendors] = useState({});
-  const [siteSystems, setSiteSystems] = useState([]);
-  const [selectedProperty, setSelectedProperty] = useState("");
-  const { user } = useOutletContext();
-
-  console.log(user);
-  console.log(selectedProperty);
-
-  async function getFacilityInfo() {
-    if (!selectedProperty) return; // Add this line
-    try {
-      console.log(selectedProperty);
-      const response = await fetch(
-        `/api/facilityInfoSheet/${selectedProperty}`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setContacts(data.contacts);
-      console.log(data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
-  // If user is not a admin, they get their property automatically selected
-  // useEffect(() => {
-  //   if (user && !user.isAdmin) {
-  //     setSelectedProperty(user.property);
-  //   }
-  // }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      setSelectedProperty(user.property);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    getFacilityInfo();
-  }, [selectedProperty]);
-
+const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
   const handleChange = (type, index, field, event) => {
+    setIsDataSubmitted(false);
     const newValue = event.target.value;
 
     setContacts((prevContacts) => {
@@ -111,7 +60,7 @@ const ContactsFS = () => {
           </div>
         ))
       )}
-      <button onClick={() => addNewContact("siteManagers")}>
+      <button type="button" onClick={() => addNewContact("siteManagers")}>
         Add New Contact
       </button>
     </div>
@@ -129,19 +78,24 @@ const ContactsFS = () => {
               type="text"
               value={distManager.name}
               onChange={(event) =>
-                handleChange("districtManager", index, "name", event)
+                handleChange("districtManagers", index, "name", event)
               }
+              placeholder="Name"
             />
             <input
               type="text"
               value={distManager.phone}
               onChange={(event) =>
-                handleChange("districtManager", index, "phone", event)
+                handleChange("districtManagers", index, "phone", event)
               }
+              placeholder="Phone Number"
             />
           </div>
         ))
       )}
+      <button type="button" onClick={() => addNewContact("districtManagers")}>
+        Add New Contact
+      </button>
     </div>
   );
 
@@ -159,6 +113,7 @@ const ContactsFS = () => {
               onChange={(event) =>
                 handleChange("teamLeads", index, "name", event)
               }
+              placeholder="Name"
             />
             <input
               type="text"
@@ -166,10 +121,14 @@ const ContactsFS = () => {
               onChange={(event) =>
                 handleChange("teamLeads", index, "phone", event)
               }
+              placeholder="Phone Number"
             />
           </div>
         ))
       )}
+      <button type="button" onClick={() => addNewContact("teamLeads")}>
+        Add New Contact
+      </button>
     </div>
   );
 
@@ -187,6 +146,7 @@ const ContactsFS = () => {
               onChange={(event) =>
                 handleChange("regionalManager", index, "name", event)
               }
+              placeholder="Name"
             />
             <input
               type="text"
@@ -194,10 +154,14 @@ const ContactsFS = () => {
               onChange={(event) =>
                 handleChange("regionalManager", index, "phone", event)
               }
+              placeholder="Phone Number"
             />
           </div>
         ))
       )}
+      <button type="button" onClick={() => addNewContact("regionalManager")}>
+        Add New Contact
+      </button>
     </div>
   );
 
@@ -215,6 +179,7 @@ const ContactsFS = () => {
               onChange={(event) =>
                 handleChange("corporateContacts", index, "name", event)
               }
+              placeholder="Name"
             />
             <input
               type="text"
@@ -222,10 +187,14 @@ const ContactsFS = () => {
               onChange={(event) =>
                 handleChange("corporateContacts", index, "phone", event)
               }
+              placeholder="Phone Number"
             />
           </div>
         ))
       )}
+      <button type="button" onClick={() => addNewContact("corporateContacts")}>
+        Add New Contact
+      </button>
     </div>
   );
 
@@ -243,6 +212,7 @@ const ContactsFS = () => {
               onChange={(event) =>
                 handleChange("emergencyContacts", index, "name", event)
               }
+              placeholder="Name"
             />
             <input
               type="text"
@@ -250,36 +220,16 @@ const ContactsFS = () => {
               onChange={(event) =>
                 handleChange("emergencyContacts", index, "phone", event)
               }
+              placeholder="Phone Number"
             />
           </div>
         ))
       )}
+      <button type="button" onClick={() => addNewContact("emergencyContacts")}>
+        Add New Contact
+      </button>
     </div>
   );
-
-  // const contactsElement = Object.keys(contacts).map((type) => (
-  //   <div key={type}>
-  //     <h2>{type}</h2>
-  //     {contacts[type].length === 0 ? (
-  //       <div>No contacts</div>
-  //     ) : (
-  //       contacts[type].map((contact, index) => (
-  //         <div key={index}>
-  //           <input
-  //             type="text"
-  //             value={contact.name}
-  //             onChange={(event) => handleChange(type, index, "name", event)}
-  //           />
-  //           <input
-  //             type="text"
-  //             value={contact.phone}
-  //             onChange={(event) => handleChange(type, index, "phone", event)}
-  //           />
-  //         </div>
-  //       ))
-  //     )}
-  //   </div>
-  // ));
 
   return (
     <div>
