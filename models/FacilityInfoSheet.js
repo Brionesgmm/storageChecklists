@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 
+const contactSchema = {
+  name: String,
+  phone: String,
+  id: String,
+  _id: false, // prevent Mongoose from auto-assigning _id for each contact
+};
+
 const FacilityInfoSheet = new mongoose.Schema({
   facilityId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -8,17 +15,17 @@ const FacilityInfoSheet = new mongoose.Schema({
   },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   contacts: {
-    siteManagers: [{ name: String, phone: String }],
-    districtManagers: [{ name: String, phone: String }],
-    teamLeads: [{ name: String, phone: String }],
-    regionalManager: [{ name: String, phone: String }],
-    corporateContacts: [{ name: String, phone: String }],
-    emergencyContacts: [{ name: String, phone: String }],
+    siteManagers: [contactSchema],
+    districtManagers: [contactSchema],
+    teamLeads: [contactSchema],
+    regionalManager: [contactSchema],
+    corporateContacts: [contactSchema],
+    emergencyContacts: [contactSchema],
   },
   utilityVendors: {
-    utility: [{ utility: String, offLocation: String }],
-    vendor: [{ vendor: String, phone: String }],
-    companyUnits: [{ unit: String, description: String }],
+    utility: [{ utility: String, offLocation: String, _id: false }],
+    vendor: [{ vendor: String, phone: String, _id: false }],
+    companyUnits: [{ unit: String, description: String, _id: false }],
   },
   siteSystems: [
     {
@@ -27,6 +34,7 @@ const FacilityInfoSheet = new mongoose.Schema({
       login: String,
       password: String,
       location: String,
+      _id: false,
     },
   ],
   createdDate: { type: Date, default: Date.now },

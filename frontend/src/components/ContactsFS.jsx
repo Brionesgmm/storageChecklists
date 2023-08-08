@@ -26,9 +26,20 @@ const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
 
       // Only add a new contact if the last one isn't empty
       if (!lastContact || lastContact.name || lastContact.phone) {
-        newContacts[type].push({ name: "", phone: "" });
+        newContacts[type].push({ name: "", phone: "", id: `${Date.now()}` });
+        console.log(Date.now());
       }
+      console.log(newContacts);
+      return newContacts;
+    });
+  };
 
+  const handleDeleteContact = (type, contactId) => {
+    setContacts((prevContacts) => {
+      const newContacts = { ...prevContacts };
+      newContacts[type] = newContacts[type].filter(
+        (contact) => contact.id !== contactId
+      );
       return newContacts;
     });
   };
@@ -40,7 +51,7 @@ const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
         <div>No contacts</div>
       ) : (
         contacts.siteManagers.map((siteManager, index) => (
-          <div key={index}>
+          <div key={siteManager.id}>
             <input
               type="text"
               value={siteManager.name}
@@ -57,6 +68,14 @@ const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
               }
               placeholder="Phone Number"
             />
+            <button
+              type="button"
+              onClick={() =>
+                handleDeleteContact("siteManagers", siteManager.id)
+              }
+            >
+              Delete 🗑️ {/* This is a Unicode trash can icon */}
+            </button>
           </div>
         ))
       )}
@@ -90,6 +109,14 @@ const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
               }
               placeholder="Phone Number"
             />
+            <button
+              type="button"
+              onClick={() =>
+                handleDeleteContact("districtManagers", distManager.id)
+              }
+            >
+              Delete 🗑️ {/* This is a Unicode trash can icon */}
+            </button>
           </div>
         ))
       )}
@@ -123,6 +150,12 @@ const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
               }
               placeholder="Phone Number"
             />
+            <button
+              type="button"
+              onClick={() => handleDeleteContact("teamLeads", teamLead.id)}
+            >
+              Delete 🗑️ {/* This is a Unicode trash can icon */}
+            </button>
           </div>
         ))
       )}
@@ -156,6 +189,14 @@ const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
               }
               placeholder="Phone Number"
             />
+            <button
+              type="button"
+              onClick={() =>
+                handleDeleteContact("regionalManager", regManager.id)
+              }
+            >
+              Delete 🗑️ {/* This is a Unicode trash can icon */}
+            </button>
           </div>
         ))
       )}
@@ -189,6 +230,14 @@ const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
               }
               placeholder="Phone Number"
             />
+            <button
+              type="button"
+              onClick={() =>
+                handleDeleteContact("corporateContacts", corporateContact.id)
+              }
+            >
+              Delete 🗑️ {/* This is a Unicode trash can icon */}
+            </button>
           </div>
         ))
       )}
@@ -222,6 +271,14 @@ const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
               }
               placeholder="Phone Number"
             />
+            <button
+              type="button"
+              onClick={() =>
+                handleDeleteContact("emergencyContacts", emergencyContact.id)
+              }
+            >
+              Delete 🗑️ {/* This is a Unicode trash can icon */}
+            </button>
           </div>
         ))
       )}
