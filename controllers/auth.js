@@ -322,3 +322,29 @@ exports.getFacilityInfoSheet = async (req, res) => {
     res.status(500).json({ error: err });
   }
 };
+
+exports.updatefacilityinfosheet = async (req, res) => {
+  try {
+    const updatedData = {
+      contacts: req.body.contacts,
+      utilityVendors: req.body.utilityVendors,
+      siteSystems: req.body.siteSystems,
+    };
+    console.log(updatedData);
+    const updatedFacilityInfoSheet = await FacilityInfoSheet.findByIdAndUpdate(
+      req.params.id,
+      { $set: updatedData },
+      { new: true }
+    );
+
+    if (updatedFacilityInfoSheet) {
+      res.json(updatedFacilityInfoSheet);
+    } else {
+      res.status(404).json({ error: "Facility info sheet not found" });
+    }
+    console.log("Facility info sheet updated");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+};

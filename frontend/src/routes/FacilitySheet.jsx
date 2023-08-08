@@ -11,7 +11,7 @@ const FacilitySheet = () => {
     corporateContacts: [],
     emergencyContacts: [],
   });
-  const [utilityVendors, setutilityVendors] = useState({});
+  const [utilityVendors, setUtilityVendors] = useState({});
   const [siteSystems, setSiteSystems] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState("");
   const [facilityInfoSheetId, setFacilityInfoSheetId] = useState("");
@@ -20,7 +20,7 @@ const FacilitySheet = () => {
     utilityVendorsActive: false,
     facilitySystemsActive: false,
   });
-  const [isDataSubmitted, setIsDataSubmitted] = useState(true);
+  const [isDataSubmitted, setIsDataSubmitted] = useState(false);
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
   const { user } = useOutletContext();
 
@@ -69,7 +69,7 @@ const FacilitySheet = () => {
     getFacilityInfo();
   }, [selectedProperty]);
 
-  const updateFacilityInfoSheet = async (event, facilityId) => {
+  const updateFacilityInfoSheet = async (event, facilityInfoSheetId) => {
     event.preventDefault();
     const form = event.currentTarget;
 
@@ -79,27 +79,17 @@ const FacilitySheet = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: editFacilityName,
-        address: editFacilityAddress,
-        givenCash: editFacilityGivenCash,
+        contacts: contacts,
+        utilityVendors: utilityVendors,
+        siteSystems: siteSystems,
       }),
     });
 
     if (response.ok) {
-      setAllFacilities((prevFacilities) =>
-        prevFacilities.map((facility) =>
-          facility._id === facilityId
-            ? {
-                ...facility,
-                name: editFacilityName,
-                address: editFacilityAddress,
-                givenCash: editFacilityGivenCash,
-              }
-            : facility
-        )
-      );
+      setIsDataSubmitted(true);
+      console.log("Successfully updated the facility info sheet");
     } else {
-      console.error("There was an error updating the facility");
+      console.error("There was an error updating the facility info sheet");
     }
   };
 
@@ -114,19 +104,19 @@ const FacilitySheet = () => {
         </button>
         <button
           className="btn notesBtn"
-          onClick={() => changeTab("facilitySystems")}
+          onClick={() => changeTab("utilityVendors")}
         >
           Utility/Vendors
         </button>
         <button
           className="btn pettyBtn"
-          onClick={() => changeTab("utilityVendors")}
+          onClick={() => changeTab("facilitySystems")}
         >
           Facility Systems
         </button>
       </div>
       <form
-        action="/api/updatefacilitysheet/?_method=PUT"
+        action={`/api/updatefacilityinfosheet/${facilityInfoSheetId}?_method=PUT`}
         encType="multipart/form-data"
         method="POST"
         onSubmit={updateFacilityInfoSheet}
