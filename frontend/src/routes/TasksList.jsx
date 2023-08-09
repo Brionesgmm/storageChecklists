@@ -3,6 +3,7 @@ import { Link, useOutletContext } from "react-router-dom";
 import DailyTasks from "../components/DailyTasks";
 import Notes from "../components/Notes";
 import PettyCash from "../components/PettyCash";
+import SubmittingDataSpinner from "../components/SubmittingDataSpinner";
 
 const TasksList = () => {
   const { user, setMessages } = useOutletContext();
@@ -645,12 +646,7 @@ const TasksList = () => {
         <button className="btn submitBtn" type="submit">
           Submit
         </button>
-        {isLoadingSubmit && (
-          <div className="loadingSubmitMsg">
-            <h2>Submitting data to database...</h2>
-            <div className="spinner" />
-          </div>
-        )}
+        {isLoadingSubmit && <SubmittingDataSpinner />}
         {isDataSubmitted && (
           <h2 className="submittedDataMsg">Task data submitted!</h2>
         )}

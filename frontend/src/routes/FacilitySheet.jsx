@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import ContactsFS from "../components/ContactsFS";
+import SubmittingDataSpinner from "../components/SubmittingDataSpinner";
 
 const FacilitySheet = () => {
   const [contacts, setContacts] = useState({
@@ -71,6 +72,7 @@ const FacilitySheet = () => {
 
   const updateFacilityInfoSheet = async (event, facilityInfoSheetId) => {
     event.preventDefault();
+    setIsLoadingSubmit(true);
     const form = event.currentTarget;
 
     const response = await fetch(form.action, {
@@ -87,6 +89,7 @@ const FacilitySheet = () => {
 
     if (response.ok) {
       setIsDataSubmitted(true);
+      setIsLoadingSubmit(false);
       console.log("Successfully updated the facility info sheet");
     } else {
       console.error("There was an error updating the facility info sheet");
@@ -124,6 +127,7 @@ const FacilitySheet = () => {
         <button className="btn submitBtn" type="submit">
           Save Changes
         </button>
+        {isLoadingSubmit && <SubmittingDataSpinner />}
         {isDataSubmitted && (
           <h2 className="submittedDataMsg">Facility info submitted!</h2>
         )}
