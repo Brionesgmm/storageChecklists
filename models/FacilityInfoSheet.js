@@ -23,9 +23,11 @@ const FacilityInfoSheet = new mongoose.Schema({
     emergencyContacts: [contactSchema],
   },
   utilityVendors: {
-    utility: [{ utility: String, offLocation: String, _id: false }],
-    vendor: [{ vendor: String, phone: String, _id: false }],
-    companyUnits: [{ unit: String, description: String, _id: false }],
+    utilities: [{ name: String, description: String, id: String, _id: false }],
+    vendors: [{ name: String, description: String, id: String, _id: false }],
+    companyUnits: [
+      { name: String, description: String, id: String, _id: false },
+    ],
   },
   siteSystems: [
     {
@@ -34,6 +36,7 @@ const FacilityInfoSheet = new mongoose.Schema({
       login: String,
       password: String,
       location: String,
+      id: String,
       _id: false,
     },
   ],

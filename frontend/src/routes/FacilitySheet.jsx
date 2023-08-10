@@ -2,6 +2,9 @@ import { React, useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import ContactsFS from "../components/ContactsFS";
 import SubmittingDataSpinner from "../components/SubmittingDataSpinner";
+import FetchingDataLoadIcon from "../components/FetchingDataLoadIcon";
+import UtilityVendorsFS from "../components/UtilityVendorsFS";
+import SiteSystemsFS from "../components/SiteSystemsFS";
 
 const FacilitySheet = () => {
   const [contacts, setContacts] = useState({
@@ -12,7 +15,11 @@ const FacilitySheet = () => {
     corporateContacts: [],
     emergencyContacts: [],
   });
-  const [utilityVendors, setUtilityVendors] = useState({});
+  const [utilityVendors, setUtilityVendors] = useState({
+    vendors: [],
+    utilities: [],
+    companyUnits: [],
+  });
   const [siteSystems, setSiteSystems] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState("");
   const [facilityInfoSheetId, setFacilityInfoSheetId] = useState("");
@@ -23,6 +30,7 @@ const FacilitySheet = () => {
   });
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const [isSheetInfoLoading, setIsSheetInfoLoading] = useState(false);
   const { user } = useOutletContext();
 
   function changeTab(key) {
@@ -49,6 +57,7 @@ const FacilitySheet = () => {
   async function getFacilityInfo() {
     if (!selectedProperty) return; // Add this line
     try {
+      setIsSheetInfoLoading(true);
       console.log(selectedProperty);
       const response = await fetch(
         `/api/facilityInfoSheet/${selectedProperty}`
@@ -58,7 +67,10 @@ const FacilitySheet = () => {
       }
       const data = await response.json();
       setContacts(data.contacts);
+      setUtilityVendors(data.utilityVendors);
+      setSiteSystems(data.siteSystems);
       setFacilityInfoSheetId(data._id);
+      setIsSheetInfoLoading(false);
       console.log(data);
     } catch (error) {
       console.error("Error:", error);
@@ -72,6 +84,7 @@ const FacilitySheet = () => {
 
   const updateFacilityInfoSheet = async (event, facilityInfoSheetId) => {
     event.preventDefault();
+    setIsDataSubmitted(false);
     setIsLoadingSubmit(true);
     const form = event.currentTarget;
 
@@ -129,16 +142,39 @@ const FacilitySheet = () => {
         </button>
         {isLoadingSubmit && <SubmittingDataSpinner />}
         {isDataSubmitted && (
-          <h2 className="submittedDataMsg">Facility info submitted!</h2>
+          <h2 className="submittedDataMsg">Facility info sheet submitted!</h2>
         )}
         <div>
-          {isActive.contactsActive && (
-            <ContactsFS
-              setIsDataSubmitted={setIsDataSubmitted}
-              setContacts={setContacts}
-              contacts={contacts}
-            />
-          )}
+          {isActive.contactsActive &&
+            (isSheetInfoLoading ? (
+              <FetchingDataLoadIcon />
+            ) : (
+              <ContactsFS
+                setIsDataSubmitted={setIsDataSubmitted}
+                setContacts={setContacts}
+                contacts={contacts}
+              />
+            ))}
+          {isActive.utilityVendorsActive &&
+            (isSheetInfoLoading ? (
+              <FetchingDataLoadIcon />
+            ) : (
+              <UtilityVendorsFS
+                setIsDataSubmitted={setIsDataSubmitted}
+                setUtilityVendors={setUtilityVendors}
+                utilityVendors={utilityVendors}
+              />
+            ))}
+          {isActive.facilitySystemsActive &&
+            (isSheetInfoLoading ? (
+              <FetchingDataLoadIcon />
+            ) : (
+              <SiteSystemsFS
+                setIsDataSubmitted={setIsDataSubmitted}
+                setSiteSystems={setSiteSystems}
+                siteSystems={siteSystems}
+              />
+            ))}
         </div>
       </form>
     </div>
