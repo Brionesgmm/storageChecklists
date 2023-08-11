@@ -31,6 +31,7 @@ const FacilitySheet = () => {
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
   const [isSheetInfoLoading, setIsSheetInfoLoading] = useState(false);
+  const [isMakingChanges, setIsMakingChanges] = useState(false);
   const { user } = useOutletContext();
 
   function changeTab(key) {
@@ -86,6 +87,7 @@ const FacilitySheet = () => {
     event.preventDefault();
     setIsDataSubmitted(false);
     setIsLoadingSubmit(true);
+    setIsMakingChanges(false);
     const form = event.currentTarget;
 
     const response = await fetch(form.action, {
@@ -140,6 +142,9 @@ const FacilitySheet = () => {
         <button className="btn submitBtn" type="submit">
           Save Changes
         </button>
+        {isMakingChanges && (
+          <h2 className="makingChanges">Please Submit Changes</h2>
+        )}
         {isLoadingSubmit && <SubmittingDataSpinner />}
         {isDataSubmitted && (
           <h2 className="submittedDataMsg">Facility info sheet submitted!</h2>
@@ -153,6 +158,7 @@ const FacilitySheet = () => {
                 setIsDataSubmitted={setIsDataSubmitted}
                 setContacts={setContacts}
                 contacts={contacts}
+                setIsMakingChanges={setIsMakingChanges}
               />
             ))}
           {isActive.utilityVendorsActive &&
@@ -163,6 +169,7 @@ const FacilitySheet = () => {
                 setIsDataSubmitted={setIsDataSubmitted}
                 setUtilityVendors={setUtilityVendors}
                 utilityVendors={utilityVendors}
+                setIsMakingChanges={setIsMakingChanges}
               />
             ))}
           {isActive.facilitySystemsActive &&
@@ -173,6 +180,7 @@ const FacilitySheet = () => {
                 setIsDataSubmitted={setIsDataSubmitted}
                 setSiteSystems={setSiteSystems}
                 siteSystems={siteSystems}
+                setIsMakingChanges={setIsMakingChanges}
               />
             ))}
         </div>

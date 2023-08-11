@@ -4,9 +4,11 @@ const UtilityVendorsFS = ({
   setIsDataSubmitted,
   setUtilityVendors,
   utilityVendors,
+  setIsMakingChanges,
 }) => {
   const handleChange = (type, index, field, event) => {
     setIsDataSubmitted(false);
+    setIsMakingChanges(true);
     const newValue = event.target.value;
 
     setUtilityVendors((prevUtilityVendors) => {
@@ -35,6 +37,7 @@ const UtilityVendorsFS = ({
         lastUtilityVendor.name ||
         lastUtilityVendor.description
       ) {
+        setIsMakingChanges(true);
         newUtilityVendors[type].push({
           name: "",
           description: "",
@@ -48,6 +51,7 @@ const UtilityVendorsFS = ({
   };
 
   const handleDeleteUtilityVendor = (type, utilityVendorId) => {
+    setIsMakingChanges(true);
     setUtilityVendors((prevUtilityVendors) => {
       const newUtilityVendors = { ...prevUtilityVendors };
       newUtilityVendors[type] = newUtilityVendors[type].filter(

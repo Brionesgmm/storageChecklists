@@ -1,8 +1,14 @@
 import { React, useEffect, useState } from "react";
 
-const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
+const ContactsFS = ({
+  setIsDataSubmitted,
+  setContacts,
+  contacts,
+  setIsMakingChanges,
+}) => {
   const handleChange = (type, index, field, event) => {
     setIsDataSubmitted(false);
+    setIsMakingChanges(true);
     const newValue = event.target.value;
 
     setContacts((prevContacts) => {
@@ -26,6 +32,7 @@ const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
 
       // Only add a new contact if the last one isn't empty
       if (!lastContact || lastContact.name || lastContact.phone) {
+        setIsMakingChanges(true);
         newContacts[type].push({ name: "", phone: "", id: `${Date.now()}` });
         console.log(Date.now());
       }
@@ -35,6 +42,7 @@ const ContactsFS = ({ setIsDataSubmitted, setContacts, contacts }) => {
   };
 
   const handleDeleteContact = (type, contactId) => {
+    setIsMakingChanges(true);
     setContacts((prevContacts) => {
       const newContacts = { ...prevContacts };
       newContacts[type] = newContacts[type].filter(

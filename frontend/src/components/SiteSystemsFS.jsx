@@ -1,8 +1,14 @@
 import React from "react";
 
-const SiteSystemsFS = ({ setIsDataSubmitted, siteSystems, setSiteSystems }) => {
+const SiteSystemsFS = ({
+  setIsDataSubmitted,
+  siteSystems,
+  setSiteSystems,
+  setIsMakingChanges,
+}) => {
   const handleChange = (index, field, event) => {
     setIsDataSubmitted(false);
+    setIsMakingChanges(true);
     const newValue = event.target.value;
 
     setSiteSystems((preSiteSystems) => {
@@ -33,6 +39,7 @@ const SiteSystemsFS = ({ setIsDataSubmitted, siteSystems, setSiteSystems }) => {
         lastSiteSystem.password ||
         lastSiteSystem.location
       ) {
+        setIsMakingChanges(true);
         newSiteSystems.push({
           siteSystem: "",
           website: "",
@@ -49,6 +56,7 @@ const SiteSystemsFS = ({ setIsDataSubmitted, siteSystems, setSiteSystems }) => {
   };
 
   const handleDeleteSiteSystem = (siteSystemId) => {
+    setIsMakingChanges(true);
     setSiteSystems((preSiteSystems) => {
       const newSiteSystems = preSiteSystems.filter(
         (siteSystem) => siteSystem.id !== siteSystemId
