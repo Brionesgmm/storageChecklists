@@ -38,7 +38,10 @@ function Signup() {
     });
     const json = await response.json();
     if (json.messages) {
-      setMessages(json.messages);
+      setMessages({});
+      setTimeout(() => {
+        setMessages(json.messages);
+      }, 0);
     }
     if (json.user) {
       setUser(json.user);

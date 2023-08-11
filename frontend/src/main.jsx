@@ -20,6 +20,7 @@ import AdminNav from "./components/AdminNav";
 import Employees from "./routes/Employees";
 import FacilityNav from "./components/FacilityNav";
 import FacilitySheet from "./routes/FacilitySheet";
+import Auctions from "./components/Auctions";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,7 @@ const router = createBrowserRouter([
             element: <FacilitySheet />,
           },
           { path: "pastTasks", element: <PastTasks /> },
+          { path: "auctions", element: <Auctions /> },
         ],
       },
       {

@@ -29,6 +29,13 @@ const FacilityNav = () => {
             Current Daily Tasks
           </button>
         </Link>
+        <Link to="/profile/auctions">
+          <button
+            className={`btn notesBtn ${activeStyle("/profile/auctions")}`}
+          >
+            Auctions
+          </button>
+        </Link>
         <Link to="/profile/pastTasks">
           <button
             className={`btn notesBtn ${activeStyle("/profile/pastTasks")}`}

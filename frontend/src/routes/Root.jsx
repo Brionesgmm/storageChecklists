@@ -13,6 +13,17 @@ function Root() {
       .then((res) => setUser(res.user));
   }, []);
 
+  useEffect(() => {
+    const listener = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setMessages({});
+      }
+    };
+    window.addEventListener("keydown", listener);
+    return () => window.removeEventListener("keydown", listener);
+  }, []);
+
   return (
     <>
       <header className="container siteHeader">
