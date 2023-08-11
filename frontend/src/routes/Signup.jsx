@@ -112,6 +112,18 @@ function Signup() {
                 ))}
               </select>
             </div>
+            <div className="mb-3">
+              <label htmlFor="signupCode" className="form-label">
+                Signup Code
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="signupCode"
+                name="signupCode"
+                placeholder="Enter signup code"
+              />
+            </div>
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
