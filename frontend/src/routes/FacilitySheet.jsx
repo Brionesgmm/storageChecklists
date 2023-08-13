@@ -77,6 +77,7 @@ const FacilitySheet = () => {
       console.error("Error:", error);
     }
   }
+  console.log(user);
   console.log(facilityInfoSheetId);
 
   useEffect(() => {
@@ -96,6 +97,7 @@ const FacilitySheet = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        user: user._id,
         contacts: contacts,
         utilityVendors: utilityVendors,
         siteSystems: siteSystems,

@@ -333,6 +333,7 @@ exports.getFacilityInfoSheet = async (req, res) => {
 exports.updatefacilityinfosheet = async (req, res) => {
   try {
     const updatedData = {
+      user: req.body.user,
       contacts: req.body.contacts,
       utilityVendors: req.body.utilityVendors,
       siteSystems: req.body.siteSystems,
