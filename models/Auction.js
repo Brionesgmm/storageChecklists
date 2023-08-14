@@ -7,28 +7,22 @@ const Auction = new mongoose.Schema({
     required: true,
   },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  contacts: {
-    siteManagers: [contactSchema],
-    districtManagers: [contactSchema],
-    teamLeads: [contactSchema],
-    regionalManager: [contactSchema],
-    corporateContacts: [contactSchema],
-    emergencyContacts: [contactSchema],
-  },
-  utilityVendors: {
-    utilities: [{ name: String, description: String, id: String, _id: false }],
-    vendors: [{ name: String, description: String, id: String, _id: false }],
-    companyUnits: [
-      { name: String, description: String, id: String, _id: false },
-    ],
-  },
-  siteSystems: [
+  currentAuctions: [
     {
-      siteSystem: String,
-      website: String,
-      login: String,
-      password: String,
-      location: String,
+      lockCutDate: Date,
+      lienDate: Date,
+      firstAdDate: Date,
+      secondAdDate: Date,
+      auctionStart: Date,
+      auctionEnd: Date,
+      auctionUnits: [
+        {
+          unit: String,
+          moneyOwed: Number,
+          _id: false,
+        },
+      ],
+      auctionFinished: { type: Boolean, default: false },
       id: String,
       _id: false,
     },
