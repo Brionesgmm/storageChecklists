@@ -20,7 +20,7 @@ import AdminNav from "./components/AdminNav";
 import Employees from "./routes/Employees";
 import FacilityNav from "./components/FacilityNav";
 import FacilitySheet from "./routes/FacilitySheet";
-import Auctions from "./components/Auctions";
+import Auctions from "./routes/Auctions";
 
 const router = createBrowserRouter([
   {

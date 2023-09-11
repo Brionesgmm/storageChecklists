@@ -19,6 +19,7 @@ Facility.find({}, (err, facilities) => {
       currentAuctions: [],
       // You will need to add auctions to 'currentAuctions' array based on your application specifics,
       // for this script, it's left as an empty array
+      endedAuctions: [],
     });
 
     newAuction.save((err) => {

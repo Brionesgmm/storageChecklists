@@ -11,6 +11,7 @@ const logger = require("morgan");
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
 const taskRoutes = require("./routes/tasks");
+const auctionRoutes = require("./routes/auctions");
 const cors = require("cors");
 
 app.use(cors());
@@ -59,12 +60,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Use flash messages for errors, info, ect...
+//Use flash messages for errors
 app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
 app.use("/api", mainRoutes);
 app.use("/api/task", taskRoutes);
+app.use("/api/auctions", auctionRoutes);
 app.use("*", (_, res) => {
   res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
 });
