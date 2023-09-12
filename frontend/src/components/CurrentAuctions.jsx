@@ -68,21 +68,26 @@ const CurrentAuctions = ({
 
   const addUnit = (index) => {
     if (newUnit) {
-      setIsMakingChanges(true);
       setCurrentAuctions((prevAuctions) => {
         const newAuctions = [...prevAuctions];
-        newAuctions[index].auctionUnits.push(newUnit);
+        // Create an object with the unit field before pushing to auctionUnits
+        newAuctions[index].auctionUnits.push({
+          unit: newUnit,
+          id: `${Date.now()}`,
+        });
         return newAuctions;
       });
       setNewUnit("");
     }
   };
 
-  const handleDeleteUnit = (auctionIndex, unitIndex) => {
+  const handleDeleteUnit = (auctionIndex, unitId) => {
     setIsMakingChanges(true);
     setCurrentAuctions((prevAuctions) => {
       const newAuctions = [...prevAuctions];
-      newAuctions[auctionIndex].auctionUnits.splice(unitIndex, 1);
+      newAuctions[auctionIndex].auctionUnits = newAuctions[
+        auctionIndex
+      ].auctionUnits.filter((unit) => unit.id !== unitId);
       return newAuctions;
     });
   };
@@ -201,12 +206,12 @@ const CurrentAuctions = ({
             <div>
               <p>Auction Units</p>
               <p>Total Units {auction.auctionUnits.length}</p>
-              {auction.auctionUnits.map((unit, unitIndex) => (
-                <div key={unitIndex}>
-                  {unit}
+              {auction.auctionUnits.map((unit) => (
+                <div key={unit.id}>
+                  {unit.unit}
                   <button
                     type="button"
-                    onClick={() => handleDeleteUnit(index, unitIndex)}
+                    onClick={() => handleDeleteUnit(index, unit.id)}
                   >
                     Delete Unit
                   </button>

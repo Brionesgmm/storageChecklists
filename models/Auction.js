@@ -21,7 +21,7 @@ const Auction = new mongoose.Schema({
         completed: { type: Boolean, default: false },
       },
       auctionEnd: { time: Date, completed: { type: Boolean, default: false } },
-      auctionUnits: [String],
+      auctionUnits: [{ unit: String, _id: false, id: String }],
       auctionFinished: { type: Boolean, default: false },
       id: String,
       _id: false,
