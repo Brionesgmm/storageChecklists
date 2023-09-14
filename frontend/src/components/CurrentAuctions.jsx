@@ -98,11 +98,36 @@ const CurrentAuctions = ({
     }
   };
 
+  const reformatDate = (dateString) => {
+    console.log(dateString);
+    // Check if dateString is valid
+    if (!dateString || isNaN(Date.parse(dateString))) {
+      return "";
+    }
+
+    if (dateString.includes("T00:00:00.000Z")) {
+      let correctedDate = dateString.replace(/T00:00:00.000Z/, "");
+      const [year, month, day] = correctedDate.split("-");
+
+      // Return the date in the desired format
+      return `${month}/${day}/${year}`;
+    } else {
+      // Split the string into parts
+      const [year, month, day] = dateString.split("-");
+
+      // Return the date in the desired format
+      return `${month}/${day}/${year}`;
+    }
+  };
+
   const formatDate = (dateString) => {
     if (!dateString || isNaN(Date.parse(dateString))) {
       return "";
     }
     const date = new Date(dateString);
+
+    console.log(date);
+    console.log(date.toISOString().substring(0, 10));
     return date.toISOString().substring(0, 10);
   };
 
@@ -117,7 +142,7 @@ const CurrentAuctions = ({
             {console.log(auction.auctionEnd.time)}
             <h1>
               {auction.auctionEnd.time
-                ? new Date(auction.auctionEnd.time).toLocaleDateString()
+                ? reformatDate(auction.auctionEnd.time)
                 : ""}
             </h1>
             <label htmlFor={`lockCutDate-${index}`}>Lock Cut Date</label>
