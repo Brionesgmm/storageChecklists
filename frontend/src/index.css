@@ -208,6 +208,25 @@
   }
 }
 
+/* Current Auctions */
+
+.currentAuctions {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.liveAuctions {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 1rem;
+}
+
+.auctionInfo {
+  margin: 1rem;
+  max-width: 20rem;
+}
+
 .spinner {
   display: inline-block; /* This will allow the spinner to sit next to the text */
   margin-left: 10px; /* This adds a bit of space between the spinner and the text */
