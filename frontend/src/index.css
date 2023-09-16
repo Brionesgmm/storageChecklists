@@ -224,7 +224,62 @@
 
 .auctionInfo {
   margin: 1rem;
-  max-width: 20rem;
+  max-width: 22rem;
+}
+
+.auctionInputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auctionInputs label {
+  margin-right: 0.5rem;
+}
+
+.auctionInputs input[type="checkbox"] {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.inputsSections {
+  display: flex;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.unitDeleteBtn {
+  border-radius: 5px;
+  margin: 0.1rem 0.1rem 0.5rem 1rem;
+  background-color: #d9534f;
+  border: none;
+  padding: 0.1rem;
+  color: #ffffff;
+  padding: 0.25rem;
+}
+
+.auctionDeleteBtn {
+  background-color: #ff0000; /* Vivid red color */
+  color: white; /* White text color for contrast */
+  border: 1px solid #b30000; /* Darker red border for more definition */
+  padding: 10px 20px; /* Example padding */
+  border-radius: 5px; /* Rounded corners */
+  font-weight: bold; /* Bold text for emphasis */
+  cursor: pointer; /* Cursor to indicate clickable button */
+  margin-top: 0.5rem;
+}
+
+.addUnitBtn {
+  background-color: #5cb85c; /* Bootstrap's 'btn-success' green */
+  color: white; /* White text for contrast */
+  border: none; /* No border for a modern look, but you can add if you like */
+  padding: 5px 10px; /* Comfortable padding */
+  border-radius: 5px; /* Rounded corners */
+  font-weight: bold; /* Bold text to make the button label clear */
+  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+  margin-left: 0.5rem;
 }
 
 .spinner {

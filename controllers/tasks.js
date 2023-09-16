@@ -251,10 +251,10 @@ module.exports = {
             },
             { label: "Put away all your paperwork", checked: false },
             { label: "Clean office windows and close blinds", checked: false },
-            {
-              label: "Put Daily Checklist in Site Info Binder",
-              checked: false,
-            },
+            // {
+            //   label: "Put Daily Checklist in Site Info Binder",
+            //   checked: false,
+            // },
             {
               label:
                 "Clock out, turn on alarm, turn off 'open sign', turn off TVs, lock up office",
