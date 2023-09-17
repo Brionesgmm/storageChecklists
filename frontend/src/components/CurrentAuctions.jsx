@@ -5,13 +5,23 @@ const CurrentAuctions = ({
   setIsMakingChanges,
   setCurrentAuctions,
   currentAuctions,
+  isDataSubmitted,
 }) => {
-  const [newUnit, setNewUnit] = useState("");
+  const [newUnits, setNewUnits] = useState({});
+  const [hasChanged, setHasChanged] = useState(false); // New state to track if changes have been made
+
+  const markAsChanged = () => {
+    if (!hasChanged) {
+      setHasChanged(true);
+    }
+    setIsDataSubmitted(false);
+    setIsMakingChanges(true);
+  };
 
   const handleChange = (index, field, event) => {
     setIsDataSubmitted(false);
     setIsMakingChanges(true);
-
+    markAsChanged();
     setCurrentAuctions((prevAuctions) => {
       const newAuctions = [...prevAuctions];
       const fields = field.split("."); // split the field string into an array based on the dot character
@@ -68,24 +78,30 @@ const CurrentAuctions = ({
   };
 
   const addUnit = (index) => {
-    if (newUnit) {
+    const unitToAdd = newUnits[index];
+    if (unitToAdd) {
       setCurrentAuctions((prevAuctions) => {
         const newAuctions = [...prevAuctions];
-        // Create an object with the unit field before pushing to auctionUnits
         newAuctions[index].auctionUnits.push({
-          unit: newUnit,
+          unit: unitToAdd,
           id: `${Date.now()}`,
         });
         return newAuctions;
       });
-      setNewUnit("");
+      // Clear the input field after adding the unit
+      setNewUnits((prev) => ({
+        ...prev,
+        [index]: "",
+      }));
       setIsMakingChanges(true);
       setIsDataSubmitted(false);
+      markAsChanged();
     }
   };
 
   const handleDeleteUnit = (auctionIndex, unitId) => {
     setIsMakingChanges(true);
+    setIsDataSubmitted(false);
     setCurrentAuctions((prevAuctions) => {
       const newAuctions = [...prevAuctions];
       newAuctions[auctionIndex].auctionUnits = newAuctions[
@@ -135,7 +151,15 @@ const CurrentAuctions = ({
   };
 
   const currentAuctionsElement = (
-    <div className="currentAuctionsSection">
+    <div
+      className={`currentAuctionsSection ${
+        hasChanged
+          ? isDataSubmitted
+            ? "dataSubmitted"
+            : "dataNotSubmitted"
+          : ""
+      }`}
+    >
       <h1>Current Auctions</h1>
       <div className="currentAuctions">
         {currentAuctions.length === 0 ? (
@@ -295,11 +319,17 @@ const CurrentAuctions = ({
                     ))}
                     <input
                       type="text"
-                      value={newUnit}
-                      onChange={(e) => setNewUnit(e.target.value)}
+                      value={newUnits[index] || ""}
+                      onChange={(e) =>
+                        setNewUnits({
+                          ...newUnits,
+                          [index]: e.target.value,
+                        })
+                      }
                       placeholder="Add Unit"
                       onKeyDown={handleKeyPress}
                     />
+
                     <button
                       type="button"
                       className="addUnitBtn"

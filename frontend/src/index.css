@@ -210,6 +210,14 @@
 
 /* Current Auctions */
 
+.dataNotSubmitted {
+  background-color: #fffb00;
+}
+
+.dataSubmitted {
+  background-color: #00ff6e;
+}
+
 .currentAuctions {
   display: flex;
   justify-content: space-evenly;
@@ -220,6 +228,7 @@
   border: 1px solid black;
   border-radius: 5px;
   margin: 1rem;
+  background-color: white;
 }
 
 .auctionInfo {
@@ -250,9 +259,19 @@
   margin-top: 0.25rem;
 }
 
+.units {
+  border: black solid 1px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  margin-bottom: 0.5rem;
+  justify-content: space-between;
+}
+
 .unitDeleteBtn {
   border-radius: 5px;
-  margin: 0.1rem 0.1rem 0.5rem 1rem;
+  margin: 0.1rem 0.1rem 0.1rem 1rem;
   background-color: #d9534f;
   border: none;
   padding: 0.1rem;

@@ -125,6 +125,7 @@ const Auctions = () => {
               setIsMakingChanges={setIsMakingChanges}
               setCurrentAuctions={setCurrentAuctions}
               currentAuctions={currentAuctions}
+              isDataSubmitted={isDataSubmitted}
             />
           ))}
         {isActive.endedAuctions &&
