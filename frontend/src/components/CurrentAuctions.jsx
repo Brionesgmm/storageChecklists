@@ -165,7 +165,7 @@ const CurrentAuctions = ({
         {currentAuctions.length === 0 ? (
           <div>No Auctions</div>
         ) : (
-          currentAuctions.map((auction, index) => (
+          currentAuctions.filter(el => !el.auctionFinished).map((auction, index) => (
             <div className="liveAuctions" key={auction.id}>
               {console.log(auction.auctionEnd.time)}
               <div className="auctionInfo">
