@@ -135,6 +135,9 @@ const Auctions = () => {
             <EndedAuctions
               setIsDataSubmitted={setIsDataSubmitted}
               setIsMakingChanges={setIsMakingChanges}
+              setCurrentAuctions={setCurrentAuctions}
+              currentAuctions={currentAuctions}
+              isDataSubmitted={isDataSubmitted}
             />
           ))}
       </form>
