@@ -18,18 +18,21 @@ const EndedAuctions = ({
     setIsMakingChanges(true);
   };
 
-  const handleChange = (index, field, event) => {
+  const handleChange = (auctionId, field, event) => {
     setIsDataSubmitted(false);
     setIsMakingChanges(true);
     markAsChanged();
     setCurrentAuctions((prevAuctions) => {
       const newAuctions = [...prevAuctions];
+      const auctionIndex = newAuctions.findIndex(
+        (auction) => auction.id === auctionId
+      );
       const fields = field.split("."); // split the field string into an array based on the dot character
+
       if (fields.length === 2) {
-        // if the field string was split into two parts
         // handle nested fields
-        newAuctions[index][fields[0]] = {
-          ...newAuctions[index][fields[0]],
+        newAuctions[auctionIndex][fields[0]] = {
+          ...newAuctions[auctionIndex][fields[0]],
           [fields[1]]:
             event.target.type === "checkbox"
               ? event.target.checked
@@ -37,11 +40,10 @@ const EndedAuctions = ({
         };
       } else {
         // handle non-nested fields
-        newAuctions[index][field] = event.target.value;
+        newAuctions[auctionIndex][field] = event.target.value;
       }
       return newAuctions;
     });
-    console.log(currentAuctions);
   };
 
   const addNewAuction = () => {
@@ -165,177 +167,188 @@ const EndedAuctions = ({
         {currentAuctions.length === 0 ? (
           <div>No Auctions</div>
         ) : (
-          currentAuctions.filter(el => el.auctionFinished).map((auction, index) => (
-            <div className="liveAuctions" key={auction.id}>
-              {console.log(auction.auctionEnd.time)}
-              <div className="auctionInfo">
-                <h2 className="auctionTitle">
-                  {auction.auctionEnd.time
-                    ? reformatDate(auction.auctionEnd.time)
-                    : ""}
-                </h2>
-                <div className="auctionInputs">
-                  <div className="inputsSections">
-                    <label htmlFor={`lockCutDate-${index}`}>Lock Cut</label>
-                    <input
-                      id={`lockCutDate-${index}`}
-                      type="date"
-                      value={formatDate(auction.lockCutDate.time) || ""}
-                      onChange={(e) =>
-                        handleChange(index, "lockCutDate.time", e)
-                      }
-                      onKeyDown={handleKeyPress}
-                      readOnly
-                    />
-                    {/* <label htmlFor={`lockCutDateCompleted-${index}`}>
+          currentAuctions
+            .filter((el) => el.auctionFinished)
+            .map((auction, index) => (
+              <div className="liveAuctions" key={auction.id}>
+                {console.log(auction.auctionEnd.time)}
+                <div className="auctionInfo">
+                  <h2 className="auctionTitle">
+                    {auction.auctionEnd.time
+                      ? reformatDate(auction.auctionEnd.time)
+                      : ""}
+                  </h2>
+                  <div className="auctionInputs">
+                    <div className="inputsSections">
+                      <label htmlFor={`lockCutDate-${auction.id}`}>
+                        Lock Cut
+                      </label>
+                      <input
+                        id={`lockCutDate-${auction.id}`}
+                        type="date"
+                        value={formatDate(auction.lockCutDate.time) || ""}
+                        onChange={(e) =>
+                          handleChange(auction.id, "lockCutDate.time", e)
+                        }
+                        onKeyDown={handleKeyPress}
+                        readOnly
+                      />
+                      {/* <label htmlFor={`lockCutDateCompleted-${auction.id}`}>
                       Completed
                     </label> */}
-                    <input
-                      type="checkbox"
-                      id={`lockCutDateCompleted-${index}`}
-                      checked={auction.lockCutDate.completed || false}
-                      onChange={(e) =>
-                        handleChange(index, "lockCutDate.completed", e)
-                        
-                      }
-                      disabled
-                    />
-                  </div>
-                  <div className="inputsSections">
-                    <label htmlFor={`lienDate-${index}`}>Lien</label>
-                    <input
-                      id={`lienDate-${index}`}
-                      type="date"
-                      value={formatDate(auction.lienDate.time) || ""}
-                      onChange={(e) => handleChange(index, "lienDate.time", e)}
-                      onKeyDown={handleKeyPress}
-                      readOnly
-                    />
-                    {/* <label htmlFor={`lienDateCompleted-${index}`}>
+                      <input
+                        type="checkbox"
+                        id={`lockCutDateCompleted-${auction.id}`}
+                        checked={auction.lockCutDate.completed || false}
+                        onChange={(e) =>
+                          handleChange(auction.id, "lockCutDate.completed", e)
+                        }
+                        disabled
+                      />
+                    </div>
+                    <div className="inputsSections">
+                      <label htmlFor={`lienDate-${auction.id}`}>Lien</label>
+                      <input
+                        id={`lienDate-${auction.id}`}
+                        type="date"
+                        value={formatDate(auction.lienDate.time) || ""}
+                        onChange={(e) =>
+                          handleChange(auction.id, "lienDate.time", e)
+                        }
+                        onKeyDown={handleKeyPress}
+                        readOnly
+                      />
+                      {/* <label htmlFor={`lienDateCompleted-${auction.id}`}>
                       Completed
                     </label> */}
-                    <input
-                      type="checkbox"
-                      id={`lienDateCompleted-${index}`}
-                      checked={auction.lienDate.completed || false}
-                      onChange={(e) =>
-                        handleChange(index, "lienDate.completed", e)
-                      }
-                      disabled
-                    />
-                  </div>
-                  <div className="inputsSections">
-                    <label htmlFor={`firstAdDate-${index}`}>First Ad</label>
-                    <input
-                      id={`firstAdDate-${index}`}
-                      type="date"
-                      value={formatDate(auction.firstAdDate.time) || ""}
-                      onChange={(e) =>
-                        handleChange(index, "firstAdDate.time", e)
-                      }
-                      onKeyDown={handleKeyPress}
-                      readOnly
-                    />
-                    {/* <label htmlFor={`firstAdDateCompleted-${index}`}>
+                      <input
+                        type="checkbox"
+                        id={`lienDateCompleted-${auction.id}`}
+                        checked={auction.lienDate.completed || false}
+                        onChange={(e) =>
+                          handleChange(auction.id, "lienDate.completed", e)
+                        }
+                        disabled
+                      />
+                    </div>
+                    <div className="inputsSections">
+                      <label htmlFor={`firstAdDate-${auction.id}`}>
+                        First Ad
+                      </label>
+                      <input
+                        id={`firstAdDate-${auction.id}`}
+                        type="date"
+                        value={formatDate(auction.firstAdDate.time) || ""}
+                        onChange={(e) =>
+                          handleChange(auction.id, "firstAdDate.time", e)
+                        }
+                        onKeyDown={handleKeyPress}
+                        readOnly
+                      />
+                      {/* <label htmlFor={`firstAdDateCompleted-${auction.id}`}>
                       Completed
                     </label> */}
-                    <input
-                      type="checkbox"
-                      id={`firstAdDateCompleted-${index}`}
-                      checked={auction.firstAdDate.completed || false}
-                      onChange={(e) =>
-                        handleChange(index, "firstAdDate.completed", e)
-                      }
-                      disabled
-                    />
-                  </div>
-                  <div className="inputsSections">
-                    <label htmlFor={`secondAdDate-${index}`}>Second Ad</label>
-                    <input
-                      id={`secondAdDate-${index}`}
-                      type="date"
-                      value={formatDate(auction.secondAdDate.time) || ""}
-                      onChange={(e) =>
-                        handleChange(index, "secondAdDate.time", e)
-                      }
-                      onKeyDown={handleKeyPress}
-                      readOnly
-                    />
-                    {/* <label htmlFor={`secondAdDateCompleted-${index}`}>
+                      <input
+                        type="checkbox"
+                        id={`firstAdDateCompleted-${auction.id}`}
+                        checked={auction.firstAdDate.completed || false}
+                        onChange={(e) =>
+                          handleChange(auction.id, "firstAdDate.completed", e)
+                        }
+                        disabled
+                      />
+                    </div>
+                    <div className="inputsSections">
+                      <label htmlFor={`secondAdDate-${auction.id}`}>
+                        Second Ad
+                      </label>
+                      <input
+                        id={`secondAdDate-${auction.id}`}
+                        type="date"
+                        value={formatDate(auction.secondAdDate.time) || ""}
+                        onChange={(e) =>
+                          handleChange(auction.id, "secondAdDate.time", e)
+                        }
+                        onKeyDown={handleKeyPress}
+                        readOnly
+                      />
+                      {/* <label htmlFor={`secondAdDateCompleted-${auction.id}`}>
                       Completed
                     </label> */}
-                    <input
-                      type="checkbox"
-                      id={`secondAdDateCompleted-${index}`}
-                      checked={auction.secondAdDate.completed || false}
-                      onChange={(e) =>
-                        handleChange(index, "secondAdDate.completed", e)
-                      }
-                      disabled
-                    />
-                  </div>
-                  <div className="inputsSections">
-                    <label htmlFor={`auctionStart-${index}`}>
-                      Auction Start
-                    </label>
-                    <input
-                      id={`auctionStart-${index}`}
-                      type="date"
-                      value={formatDate(auction.auctionStart.time) || ""}
-                      onChange={(e) =>
-                        handleChange(index, "auctionStart.time", e)
-                      }
-                      onKeyDown={handleKeyPress}
-                      readOnly
-                    />
-                    {/* <label htmlFor={`auctionStartCompleted-${index}`}>
+                      <input
+                        type="checkbox"
+                        id={`secondAdDateCompleted-${auction.id}`}
+                        checked={auction.secondAdDate.completed || false}
+                        onChange={(e) =>
+                          handleChange(auction.id, "secondAdDate.completed", e)
+                        }
+                        disabled
+                      />
+                    </div>
+                    <div className="inputsSections">
+                      <label htmlFor={`auctionStart-${auction.id}`}>
+                        Auction Start
+                      </label>
+                      <input
+                        id={`auctionStart-${auction.id}`}
+                        type="date"
+                        value={formatDate(auction.auctionStart.time) || ""}
+                        onChange={(e) =>
+                          handleChange(auction.id, "auctionStart.time", e)
+                        }
+                        onKeyDown={handleKeyPress}
+                        readOnly
+                      />
+                      {/* <label htmlFor={`auctionStartCompleted-${auction.id}`}>
                       Completed
                     </label> */}
-                    <input
-                      type="checkbox"
-                      id={`auctionStartCompleted-${index}`}
-                      checked={auction.auctionStart.completed || false}
-                      onChange={(e) =>
-                        handleChange(index, "auctionStart.completed", e)
-                      }
-                      disabled
-                    />
-                  </div>
-                  <div className="inputsSections">
-                    <label htmlFor={`auctionEnd-${index}`}>Auction End</label>
-                    <input
-                      id={`auctionEnd-${index}`}
-                      type="date"
-                      value={formatDate(auction.auctionEnd.time) || ""}
-                      onChange={(e) =>
-                        handleChange(index, "auctionEnd.time", e)
-                      }
-                      onKeyDown={handleKeyPress}
-                      readOnly
-                    />
-                  </div>
-                  <div className="auctionUnits">
-                    <p>Auction Units</p>
-                    <p>Total Units {auction.auctionUnits.length}</p>
-                    {auction.auctionUnits.map((unit) => (
-                      <div className="units" key={unit.id}>
-                        {unit.unit}
-                        {/* <button
+                      <input
+                        type="checkbox"
+                        id={`auctionStartCompleted-${auction.id}`}
+                        checked={auction.auctionStart.completed || false}
+                        onChange={(e) =>
+                          handleChange(auction.id, "auctionStart.completed", e)
+                        }
+                        disabled
+                      />
+                    </div>
+                    <div className="inputsSections">
+                      <label htmlFor={`auctionEnd-${auction.id}`}>
+                        Auction End
+                      </label>
+                      <input
+                        id={`auctionEnd-${auction.id}`}
+                        type="date"
+                        value={formatDate(auction.auctionEnd.time) || ""}
+                        onChange={(e) =>
+                          handleChange(auction.id, "auctionEnd.time", e)
+                        }
+                        onKeyDown={handleKeyPress}
+                        readOnly
+                      />
+                    </div>
+                    <div className="auctionUnits">
+                      <p>Auction Units</p>
+                      <p>Total Units {auction.auctionUnits.length}</p>
+                      {auction.auctionUnits.map((unit) => (
+                        <div className="units" key={unit.id}>
+                          {unit.unit}
+                          {/* <button
                           className="unitDeleteBtn"
                           type="button"
-                          onClick={() => handleDeleteUnit(index, unit.id)}
+                          onClick={() => handleDeleteUnit(auction.id, unit.id)}
                         >
                           Delete 🗑️
                         </button> */}
-                      </div>
-                    ))}
-                    {/* <input
+                        </div>
+                      ))}
+                      {/* <input
                       type="text"
-                      value={newUnits[index] || ""}
+                      value={newUnits[auction.id] || ""}
                       onChange={(e) =>
                         setNewUnits({
                           ...newUnits,
-                          [index]: e.target.value,
+                          [auction.id]: e.target.value,
                         })
                       }
                       placeholder="Add Unit"
@@ -345,27 +358,27 @@ const EndedAuctions = ({
                     <button
                       type="button"
                       className="addUnitBtn"
-                      onClick={() => addUnit(index)}
+                      onClick={() => addUnit(auction.id)}
                     >
                       Add Unit
                     </button> */}
-                  </div>
-                  <div className="inputsSections">
-                    <label>
-                      Auction Finished:
-                      <input
-                        type="checkbox"
-                        checked={auction.auctionFinished || false}
-                        onChange={(e) =>
-                          handleChange(index, "auctionFinished", {
-                            target: { value: e.target.checked },
-                          })
-                        }
-                        onKeyDown={handleKeyPress}
-                      />
-                    </label>
-                  </div>
-                  {/* <button
+                    </div>
+                    <div className="inputsSections">
+                      <label>
+                        Auction Finished:
+                        <input
+                          type="checkbox"
+                          checked={auction.auctionFinished || false}
+                          onChange={(e) =>
+                            handleChange(auction.id, "auctionFinished", {
+                              target: { value: e.target.checked },
+                            })
+                          }
+                          onKeyDown={handleKeyPress}
+                        />
+                      </label>
+                    </div>
+                    {/* <button
                     type="button"
                     className="auctionDeleteBtn"
                     onClick={() =>
@@ -374,10 +387,10 @@ const EndedAuctions = ({
                   >
                     Delete Auction🗑️
                   </button> */}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            ))
         )}
       </div>
       {/* <button type="button" onClick={addNewAuction}>
