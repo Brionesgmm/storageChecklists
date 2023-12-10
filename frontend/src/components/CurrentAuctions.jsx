@@ -394,7 +394,11 @@ const CurrentAuctions = ({
             ))
         )}
       </div>
-      <button type="button" onClick={addNewAuction}>
+      <button
+        className="addNewAuctionBtn"
+        type="button"
+        onClick={addNewAuction}
+      >
         Add New Auction
       </button>
     </div>

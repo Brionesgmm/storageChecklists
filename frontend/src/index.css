@@ -210,6 +210,10 @@
 
 /* Current Auctions */
 
+.currentAuctionsSection {
+  margin-bottom: 1rem;
+}
+
 .dataNotSubmitted {
   background-color: #fffb00;
 }
@@ -299,6 +303,20 @@
   font-weight: bold; /* Bold text to make the button label clear */
   cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
   margin-left: 0.5rem;
+}
+
+.addNewAuctionBtn {
+  background-color: green;
+  display: block;
+  margin: 0 auto;
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .spinner {
