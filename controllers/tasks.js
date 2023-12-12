@@ -81,7 +81,7 @@ module.exports = {
       if (!facilityId || !date) {
         return res
           .status(400)
-          .json({ message: "FacilityId and date are required." });
+          .json({ message: "Property and date are required." });
       }
 
       // Parse date string into a Date object in UTC

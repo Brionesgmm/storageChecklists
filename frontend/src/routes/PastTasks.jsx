@@ -156,7 +156,7 @@ const PastTasks = () => {
 
   return (
     <>
-      <div className="mb-3">
+      <div className="mb-3 propertySelectSection">
         <label htmlFor="property" className="form-label">
           Property
         </label>
@@ -196,7 +196,7 @@ const PastTasks = () => {
           </select>
         )}
       </div>
-      <div className="mb-3">
+      <div className="mb-3 dateSelectSection">
         <label htmlFor="date" className="form-label">
           Date
         </label>
@@ -208,7 +208,9 @@ const PastTasks = () => {
           onChange={(e) => setSelectedDate(e.target.value)}
         />
       </div>
-      <button onClick={getTaskData}>Find Task</button>
+      <button className="getPasttaskBtn" onClick={getTaskData}>
+        Find Task
+      </button>
       {errorMessage && <h2>{errorMessage}</h2>}
       {!errorMessage && (
         <div className="pastDataDisplay">
