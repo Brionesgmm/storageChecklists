@@ -72,7 +72,7 @@ const SiteSystemsFS = ({
         <div>No site systems</div>
       ) : (
         siteSystems.map((system, index) => (
-          <div key={system.id}>
+          <div className="siteInfoInputs" key={system.id}>
             <input
               type="text"
               value={system.siteSystem}
@@ -105,14 +105,19 @@ const SiteSystemsFS = ({
             />
             <button
               type="button"
+              className="siteInfoDeleteBtn"
               onClick={() => handleDeleteSiteSystem(system.id)}
             >
-              Delete 🗑️ {/* This is a Unicode trash can icon */}
+              Delete {/* 🗑️ This is a Unicode trash can icon */}
             </button>
           </div>
         ))
       )}
-      <button type="button" onClick={() => addNewSiteSystem()}>
+      <button
+        className="siteInfoAddBtn"
+        type="button"
+        onClick={() => addNewSiteSystem()}
+      >
         Add New Site System
       </button>
     </div>

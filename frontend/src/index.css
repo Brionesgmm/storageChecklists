@@ -371,6 +371,42 @@
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
+/* Site Systems */
+
+.siteSystemsSection,
+.utilitiesVendorsSection,
+.contactsSection {
+  margin: 0 1rem;
+  margin-bottom: 1rem;
+}
+
+.siteInfoInputs {
+  border: 1px solid black;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+}
+
+.siteInfoInputs input,
+.siteInfoInputs button {
+  margin: 0.5rem;
+}
+
+.siteInfoDeleteBtn {
+  background-color: #fd4e4e;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  padding: 0.25rem 0.75rem;
+}
+
+.siteInfoAddBtn {
+  color: white;
+  background-color: #24da00;
+  border: none;
+  border-radius: 5px;
+  padding: 0.25rem 0.75rem;
+}
+
 @media screen and (max-width: 325px) {
   .tabBtns button {
     width: 100%; /* This will make the button take full width on smaller screens */

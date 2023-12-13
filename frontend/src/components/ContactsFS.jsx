@@ -59,7 +59,7 @@ const ContactsFS = ({
         <div>No contacts</div>
       ) : (
         contacts.siteManagers.map((siteManager, index) => (
-          <div key={siteManager.id}>
+          <div className="siteInfoInputs" key={siteManager.id}>
             <input
               type="text"
               value={siteManager.name}
@@ -78,16 +78,21 @@ const ContactsFS = ({
             />
             <button
               type="button"
+              className="siteInfoDeleteBtn"
               onClick={() =>
                 handleDeleteContact("siteManagers", siteManager.id)
               }
             >
-              Delete 🗑️ {/* This is a Unicode trash can icon */}
+              Delete {/* This is a Unicode trash can icon */}
             </button>
           </div>
         ))
       )}
-      <button type="button" onClick={() => addNewContact("siteManagers")}>
+      <button
+        className="siteInfoAddBtn"
+        type="button"
+        onClick={() => addNewContact("siteManagers")}
+      >
         Add New Contact
       </button>
     </div>
@@ -100,7 +105,7 @@ const ContactsFS = ({
         <div>No contacts</div>
       ) : (
         contacts.districtManagers.map((distManager, index) => (
-          <div key={index}>
+          <div className="siteInfoInputs" key={index}>
             <input
               type="text"
               value={distManager.name}
@@ -119,16 +124,21 @@ const ContactsFS = ({
             />
             <button
               type="button"
+              className="siteInfoDeleteBtn"
               onClick={() =>
                 handleDeleteContact("districtManagers", distManager.id)
               }
             >
-              Delete 🗑️ {/* This is a Unicode trash can icon */}
+              Delete {/* This is a Unicode trash can icon */}
             </button>
           </div>
         ))
       )}
-      <button type="button" onClick={() => addNewContact("districtManagers")}>
+      <button
+        className="siteInfoAddBtn"
+        type="button"
+        onClick={() => addNewContact("districtManagers")}
+      >
         Add New Contact
       </button>
     </div>
@@ -141,7 +151,7 @@ const ContactsFS = ({
         <div>No contacts</div>
       ) : (
         contacts.teamLeads.map((teamLead, index) => (
-          <div key={index}>
+          <div className="siteInfoInputs" key={index}>
             <input
               type="text"
               value={teamLead.name}
@@ -160,14 +170,19 @@ const ContactsFS = ({
             />
             <button
               type="button"
+              className="siteInfoDeleteBtn"
               onClick={() => handleDeleteContact("teamLeads", teamLead.id)}
             >
-              Delete 🗑️ {/* This is a Unicode trash can icon */}
+              Delete {/* This is a Unicode trash can icon */}
             </button>
           </div>
         ))
       )}
-      <button type="button" onClick={() => addNewContact("teamLeads")}>
+      <button
+        className="siteInfoAddBtn"
+        type="button"
+        onClick={() => addNewContact("teamLeads")}
+      >
         Add New Contact
       </button>
     </div>
@@ -180,7 +195,7 @@ const ContactsFS = ({
         <div>No contacts</div>
       ) : (
         contacts.regionalManager.map((regManager, index) => (
-          <div key={index}>
+          <div className="siteInfoInputs" key={index}>
             <input
               type="text"
               value={regManager.name}
@@ -199,16 +214,21 @@ const ContactsFS = ({
             />
             <button
               type="button"
+              className="siteInfoDeleteBtn"
               onClick={() =>
                 handleDeleteContact("regionalManager", regManager.id)
               }
             >
-              Delete 🗑️ {/* This is a Unicode trash can icon */}
+              Delete {/* This is a Unicode trash can icon */}
             </button>
           </div>
         ))
       )}
-      <button type="button" onClick={() => addNewContact("regionalManager")}>
+      <button
+        className="siteInfoAddBtn"
+        type="button"
+        onClick={() => addNewContact("regionalManager")}
+      >
         Add New Contact
       </button>
     </div>
@@ -221,7 +241,7 @@ const ContactsFS = ({
         <div>No contacts</div>
       ) : (
         contacts.corporateContacts.map((corporateContact, index) => (
-          <div key={index}>
+          <div className="siteInfoInputs" key={index}>
             <input
               type="text"
               value={corporateContact.name}
@@ -240,16 +260,21 @@ const ContactsFS = ({
             />
             <button
               type="button"
+              className="siteInfoDeleteBtn"
               onClick={() =>
                 handleDeleteContact("corporateContacts", corporateContact.id)
               }
             >
-              Delete 🗑️ {/* This is a Unicode trash can icon */}
+              Delete {/* This is a Unicode trash can icon */}
             </button>
           </div>
         ))
       )}
-      <button type="button" onClick={() => addNewContact("corporateContacts")}>
+      <button
+        className="siteInfoAddBtn"
+        type="button"
+        onClick={() => addNewContact("corporateContacts")}
+      >
         Add New Contact
       </button>
     </div>
@@ -262,7 +287,7 @@ const ContactsFS = ({
         <div>No contacts</div>
       ) : (
         contacts.emergencyContacts.map((emergencyContact, index) => (
-          <div key={index}>
+          <div className="siteInfoInputs" key={index}>
             <input
               type="text"
               value={emergencyContact.name}
@@ -281,23 +306,28 @@ const ContactsFS = ({
             />
             <button
               type="button"
+              className="siteInfoDeleteBtn"
               onClick={() =>
                 handleDeleteContact("emergencyContacts", emergencyContact.id)
               }
             >
-              Delete 🗑️ {/* This is a Unicode trash can icon */}
+              Delete {/* This is a Unicode trash can icon */}
             </button>
           </div>
         ))
       )}
-      <button type="button" onClick={() => addNewContact("emergencyContacts")}>
+      <button
+        className="siteInfoAddBtn"
+        type="button"
+        onClick={() => addNewContact("emergencyContacts")}
+      >
         Add New Contact
       </button>
     </div>
   );
 
   return (
-    <div>
+    <div className="contactsSection">
       {siteManagersElement}
       {districtManagersElement}
       {teamLeadsElement}

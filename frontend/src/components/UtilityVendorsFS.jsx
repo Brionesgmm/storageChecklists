@@ -68,7 +68,7 @@ const UtilityVendorsFS = ({
         <div>No vendors</div>
       ) : (
         utilityVendors.vendors.map((vendor, index) => (
-          <div key={vendor.id}>
+          <div className="siteInfoInputs" key={vendor.id}>
             <input
               type="text"
               value={vendor.name}
@@ -87,14 +87,19 @@ const UtilityVendorsFS = ({
             />
             <button
               type="button"
+              className="siteInfoDeleteBtn"
               onClick={() => handleDeleteUtilityVendor("vendors", vendor.id)}
             >
-              Delete 🗑️ {/* This is a Unicode trash can icon */}
+              Delete {/* This is a Unicode trash can icon */}
             </button>
           </div>
         ))
       )}
-      <button type="button" onClick={() => addNewUtilityVendor("vendors")}>
+      <button
+        className="siteInfoAddBtn"
+        type="button"
+        onClick={() => addNewUtilityVendor("vendors")}
+      >
         Add New Contact
       </button>
     </div>
@@ -107,7 +112,7 @@ const UtilityVendorsFS = ({
         <div>No utilities</div>
       ) : (
         utilityVendors.utilities.map((utility, index) => (
-          <div key={index}>
+          <div className="siteInfoInputs" key={index}>
             <input
               type="text"
               value={utility.name}
@@ -126,14 +131,19 @@ const UtilityVendorsFS = ({
             />
             <button
               type="button"
+              className="siteInfoDeleteBtn"
               onClick={() => handleDeleteUtilityVendor("utilities", utility.id)}
             >
-              Delete 🗑️ {/* This is a Unicode trash can icon */}
+              Delete{/* This is a Unicode trash can icon */}
             </button>
           </div>
         ))
       )}
-      <button type="button" onClick={() => addNewUtilityVendor("utilities")}>
+      <button
+        className="siteInfoAddBtn"
+        type="button"
+        onClick={() => addNewUtilityVendor("utilities")}
+      >
         Add New Contact
       </button>
     </div>
@@ -146,7 +156,7 @@ const UtilityVendorsFS = ({
         <div>No Company Units</div>
       ) : (
         utilityVendors.companyUnits.map((companyUnit, index) => (
-          <div key={index}>
+          <div className="siteInfoInputs" key={index}>
             <input
               type="text"
               value={companyUnit.name}
@@ -165,23 +175,28 @@ const UtilityVendorsFS = ({
             />
             <button
               type="button"
+              className="siteInfoDeleteBtn"
               onClick={() =>
                 handleDeleteUtilityVendor("companyUnits", companyUnit.id)
               }
             >
-              Delete 🗑️ {/* This is a Unicode trash can icon */}
+              Delete {/* This is a Unicode trash can icon */}
             </button>
           </div>
         ))
       )}
-      <button type="button" onClick={() => addNewUtilityVendor("companyUnits")}>
+      <button
+        className="siteInfoAddBtn"
+        type="button"
+        onClick={() => addNewUtilityVendor("companyUnits")}
+      >
         Add New Contact
       </button>
     </div>
   );
 
   return (
-    <div>
+    <div className="utilitiesVendorsSection">
       {vendorsElement}
       {utilitiesElement}
       {companyUnitsElement}
