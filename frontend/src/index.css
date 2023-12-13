@@ -29,8 +29,9 @@
   margin: 0.1rem 0;
 }
 
-.task:hover {
-  cursor: pointer; /* Change the cursor to a hand */
+.task:hover,
+.task:hover * {
+  cursor: pointer !important; /* Change the cursor to a hand */
   background-color: #c2e8ff;
 }
 
