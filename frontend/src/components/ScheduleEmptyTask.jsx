@@ -1,5 +1,7 @@
 import React from "react";
 
-export const ScheduleEmptyTask = () => {
+const ScheduleEmptyTask = () => {
   return <div>ScheduleEmptyTask</div>;
 };
+
+export default ScheduleEmptyTask;
