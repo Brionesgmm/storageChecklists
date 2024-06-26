@@ -3,7 +3,7 @@ const Task = require("../models/Task");
 const Facility = require("../models/Facility");
 
 // Run this task every day at 00:00
-cron.schedule("* * * * *", async () => {
+cron.schedule("30 8 * * *", async () => {
   console.log("Running a task every day at 8:30 AM UTC");
 
   try {
