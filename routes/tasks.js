@@ -15,12 +15,13 @@ router.put("/updateTask", tasksController.updateTask);
 
 router.get("/facilityTask", tasksController.getFacilityTask);
 
-router.get(
-  "/scheduleEmptyTask",
-  checkApiKey,
-  tasksController.scheduleEmptyTask
-);
+// router.get(
+//   "/scheduleEmptyTask",
+//   checkApiKey,
+//   tasksController.scheduleEmptyTask
+// );
 
+router.get("/scheduleEmptyTask", tasksController.scheduleEmptyTask);
 // router.put("/likePost/:id", tasksController.likePost);
 
 // router.delete("/deletePost/:id", tasksController.deletePost);
