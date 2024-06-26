@@ -21,6 +21,7 @@ import Employees from "./routes/Employees";
 import FacilityNav from "./components/FacilityNav";
 import FacilitySheet from "./routes/FacilitySheet";
 import Auctions from "./routes/Auctions";
+import ScheduleEmptyTask from "./components/ScheduleEmptyTask";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Index />,
+      },
+      {
+        path: "/scheduleEmptyTask",
+        element: <ScheduleEmptyTask />,
       },
       {
         path: "/login",
